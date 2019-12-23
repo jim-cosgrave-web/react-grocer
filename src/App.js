@@ -1,25 +1,35 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import TestComponent from './components/test/testComponent';
+import Menu from './components/Menu/Menu';
+import GroceryList from './components/GroceryList/GroceryList';
+import Admin from './components/Admin/Admin';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Menu></Menu>
+        <div style={{padding: '1rem'}}>
+          <Switch>
+            <Route path="/admin">
+              <Admin></Admin>
+            </Route>
+            <Route path="/">
+              <GroceryList></GroceryList>
+            </Route>
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
 }
 

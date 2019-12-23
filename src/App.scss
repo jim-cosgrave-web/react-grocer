@@ -1,0 +1,117 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+$primary: rgba(66, 62, 55, 1);
+$secondary: rgba(227, 178, 60, 1);
+$tertiary:  rgba(237, 235, 215, 1);
+$quarternary: rgba(163, 149, 148, 1);
+$quinary: rgba(110, 103, 95, 1);
+
+.primary {
+  background: $primary;
+  color: $primary;
+}
+
+.secondary {
+  background: $secondary;
+  color: $secondary;
+}
+
+.tertiary {
+  background: $tertiary;
+  color: $tertiary;
+}
+
+.quarternary {
+  background: rgba(163, 149, 148, 1);
+  color: rgba(163, 149, 148, 1);
+}
+
+.quinary {
+  background: rgba(110, 103, 95, 1);
+  color: rgba(110, 103, 95, 1);
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/**************************************************
+Menu
+*************************************************/
+
+header {
+  width: 100%;
+  background: $primary;
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    list-style-type: none;
+    display: inline-block;
+
+    a {
+      color: $tertiary;
+      padding: 16px;
+      display: inline-block;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background: $secondary;
+      
+      a {
+        color: $primary;
+      }
+    }
+
+    &.active {
+      background: $secondary;
+
+      a {
+        color: $primary;
+      }
+    }
+  }
+}
+
