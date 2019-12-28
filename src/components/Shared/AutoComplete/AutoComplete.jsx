@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
-function AutoComplete(props) {
+const AutoComplete = (props) => {
     const [suggestions, setSuggestions] = useState([]);
     const [listItems, setListItems] = useState([]);
     // The active selection's index
@@ -13,33 +13,35 @@ function AutoComplete(props) {
     // What the user has entered
     const [userInput, setUserInput] = useState("");
 
+    const node = useRef();
+
+    useEffect(() => {
+        // add when mounted
+        document.addEventListener("mousedown", handleClick);
+        // return function to be called when unmounted
+        return () => {
+            document.removeEventListener("mousedown", handleClick);
+        };
+    }, []);
+
     useEffect(() => {
         setSuggestions(props.suggestions);
     }, [props]);
 
-    useEffect(() => {
-        const items = [];
-
-        for(let i = 0; i < suggestions.length; i++) {
-            const c = suggestions[i];
-
-            items.push(<li key={c.groceryId}>{c.name}</li>);
-        }
-
-        setListItems(items);
-    }, [suggestions]);
-
-    function onKeyPressed(e) {
+    const onKeyPressed = (e) => {
+        // Enter
         if (e.keyCode === 13) {
             setShowSuggestions(false);
             setUserInput(filteredSuggestions[activeSuggestion].name);
-            console.log(filteredSuggestions[activeSuggestion].name);
+            props.onChange(filteredSuggestions[activeSuggestion]);
+        // Up
         } else if (e.keyCode === 38) {
             if(activeSuggestion === 0) {
                 return;
             }
 
             setActiveSuggestion(activeSuggestion - 1);
+        // Down
         } else if (e.keyCode === 40) {
             if(activeSuggestion + 1 === filteredSuggestions.length) {
                 return;
@@ -49,7 +51,7 @@ function AutoComplete(props) {
         }
     }
 
-    function onChange(e) {
+    const onChange = (e) => {
         const userInput = e.currentTarget.value;
         const filtered = suggestions.filter(
             suggestion => suggestion.name.toLowerCase().indexOf(userInput.toLowerCase()) > -1
@@ -61,8 +63,24 @@ function AutoComplete(props) {
         setUserInput(userInput);
     }
 
-    return (
-        <div>
+    
+    const handleClick = e => {
+        if (node.current.contains(e.target)) {
+          // inside click
+          return;
+        }
+  
+        setShowSuggestions(false);
+    };
+
+    const handleSuggestionClick = suggestion => {
+        setUserInput(suggestion.name);
+        setShowSuggestions(false);
+        props.onChange(suggestion);
+    }
+
+    let content = (
+        <div ref={node} className="auto-complete">
             <input 
                 type="text" 
                 placeholder="Search for a grocery" 
@@ -71,22 +89,24 @@ function AutoComplete(props) {
                 onChange={onChange}
             >
             </input>
-            {showSuggestions ? 
+            {showSuggestions && (
             <ul className="suggestions">
                 {filteredSuggestions.map((suggestion, index) => {
                     let c = suggestion;
-                    let className;
+                    let className = 'suggestion';
 
                     if (index === activeSuggestion) {
-                        className = 'suggestion-active';
+                        className += ' suggestion-active';
                     }
 
-                    return <li className={className} key={c.groceryId}>{c.name}</li>
+                    return <li onClick={() => handleSuggestionClick(suggestion)} className={className} key={c.groceryId}>{c.name}</li>
                 })}
             </ul>
-            : <div>Nothing to show</div>}
+        )}
         </div>
     );
+
+    return content;
 }
 
 export default AutoComplete;

@@ -132,7 +132,18 @@ ul.suggestions {
     padding: 3px 8px;
   }
 
-  li.suggestion-active {
+  li.suggestion-active, li:hover {
     background: $secondary;
   }
+
+  li:hover {
+    cursor: pointer;
+  }
+}
+
+/********************************************
+Auto Complete
+********************************************/
+.auto-complete {
+  display: inline-block;
 }
