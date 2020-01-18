@@ -20,8 +20,10 @@ const GrocerySearch = (props) => {
     const getData = () => {
         axios.get('http://localhost:2584/api/Grocery')
           .then(res => {
+              if(res.data && res.data.groceris) {
              const values = res.data.groceries.sort(compare);
              setGroceries(values);
+              } 
           }).catch(res => {
             console.error(res); 
           });

@@ -8,26 +8,43 @@ const GroceryList = (props) => {
 
     const getGroceries = () => {
         let groceries = [
-          {
-              groupName: 'Vegetables',
-              groceries: [
-                {
-                    id: 1,
-                    name: 'Apples',
-                    checked: false
-                },
-                {
-                  id: 2,
-                  name: 'Tomatoes',
-                  checked: false
-                },
-                {
-                  id: 3,
-                  name: 'Milk',
-                  checked: true
-                }
-              ]
-          }
+            {
+                groupName: 'Vegetables',
+                groceries: [
+                  {
+                      id: 1,
+                      name: 'Apples',
+                      checked: false
+                  },
+                  {
+                    id: 2,
+                    name: 'Tomatoes',
+                    checked: false,
+                    notes: '5 roma'
+                  },
+                  {
+                    id: 3,
+                    name: 'Milk',
+                    checked: true
+                  }
+                ]
+            },
+            {
+                groupName: 'Breakfast',
+                groceries: [
+                  {
+                      id: 4,
+                      name: 'Breakfast Bars',
+                      checked: true
+                  },
+                  {
+                    id: 5,
+                    name: 'Cereal',
+                    checked: false,
+                    notes: 'Honey Nut Cherrios'
+                  }
+                ]
+            }
         ];
 
         return groceries;

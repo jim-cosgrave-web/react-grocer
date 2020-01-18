@@ -3,11 +3,13 @@ import './Menu.scss';
 
 import {
     BrowserRouter as Router,
-    Link
+    Link,
+    useParams
   } from "react-router-dom";
  
 function Menu() {
-    const [link, setLink] = useState(0);
+    let { id } = useParams();
+    const [link, setLink] = useState('');
 
     useEffect(() => {
         const path = window.location.pathname.replace('/', '');
@@ -32,7 +34,7 @@ function Menu() {
                 <li onClick={() => setActive('home')} className={link === 'home' ? 'active' : ''}>
                     <Link to="/">Home</Link>
                 </li>
-                <li onClick={() => setActive('admin')} className={link === 'admin' ? 'active' : ''}>
+                <li onClick={() => setActive('admin')} className={link.indexOf('admin') > -1 ? 'active' : ''}>
                     <Link to="/admin">Admin</Link>
                 </li>
             </ul> 

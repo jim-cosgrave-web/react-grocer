@@ -72,6 +72,31 @@ a {
   text-decoration: none;
 }
 
+button {
+  font-size: 1rem;
+  padding: 5px 12px;
+  background-color: $tertiary;
+  cursor: pointer;
+}
+
+.padding-1 {
+  padding: 1rem;
+}
+
+.flex-grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.col {
+  width: 22%;
+  height: 200px;
+  background-color: red;
+  font-size: 30px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
 
 /**************************************************
 Menu
@@ -146,4 +171,101 @@ Auto Complete
 ********************************************/
 .auto-complete {
   display: inline-block;
+}
+
+/********************************************
+Grocery List
+********************************************/
+.list {
+  max-width: 600px;
+  margin-top: 16px;
+}
+
+.grocery-group {
+    border: 1px solid $primary;
+    margin-bottom: 1rem;
+
+    .grocery-group-name {
+      padding: .5rem;
+      border-bottom: 1px solid $primary;
+      background-color: $secondary;
+      color: $primary;
+      font-weight: bold;
+    }
+
+    .groceries {
+      padding: .5rem;
+    }
+}
+
+.grocery {
+  border: 1px solid lighten($primary, 50%);
+  margin-bottom: .5rem;
+  padding: .5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note {
+  color: lighten($primary, 20%);
+  font-style: italic;
+  font-size: .8rem;
+}
+
+/*********************************************
+Store
+*********************************************/
+
+.store {
+  border: 1px solid lighten($primary, 50%);
+  margin-bottom: 1em;
+}
+
+.store-card {
+  max-width: 300px;
+}
+
+.store-name {
+  padding: .5rem;
+  border-bottom: 1px solid lighten($primary, 50%);
+  background-color: $secondary;
+  color: $primary;
+  font-weight: bold;
+}
+
+.store-details {
+  padding: .5rem;
+}
+
+/***********************************************
+*
+* Card
+*
+***********************************************/
+.card {
+  border: 1px solid lighten($primary, 50%);
+  margin-bottom: 1em;
+}
+
+.card-header {
+  padding: .5rem;
+  border-bottom: 1px solid lighten($primary, 50%);
+  background-color: $secondary;
+  color: $primary;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: .5rem;
+}
+
+/***********************************************
+*
+* END - Card
+*
+***********************************************/
+
+.grocery-category-card {
+  width: 32%;
 }
