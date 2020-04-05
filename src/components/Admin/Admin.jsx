@@ -12,9 +12,11 @@ function Admin() {
     let { path, url } = useRouteMatch();
 
     useEffect(() => {
-        axios.get('http://localhost:2584/api/Store')
+        axios.get('https://jpc-express.herokuapp.com/inventory')
             .then(res => {
-                setStores(res.data.stores);
+                //setStores(res.data.stores);
+                const inventory = res.data;
+                console.log(inventory);
             });
     }, []);
 
@@ -24,6 +26,7 @@ function Admin() {
                 {stores && stores.map((store, index) => {
                     return <StoreCard key={index} store={store}></StoreCard>
                 })}
+                <div>THIS IS THE ADMIN PAGE</div>
             </div>
         </div>
     );
