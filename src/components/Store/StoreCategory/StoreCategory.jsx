@@ -16,8 +16,8 @@ function StoreCategory({ category, onMove }) {
                     { category.name } 
                 </div>
                 <div>
-                    <button onClick={moveLeft}>Left</button>
-                    <button onClick={moveRight}>Right</button>
+                    <button onClick={moveLeft}>&lt;&lt;</button>
+                    <button onClick={moveRight}>&gt;&gt;</button>
                 </div>
             </div>
             <div className="card-body">

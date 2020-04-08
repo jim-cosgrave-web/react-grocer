@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import StoreCard from '../Store/StoreCard';
+import env from '../Shared/Environment';
 
-import {
+import { 
     useRouteMatch
   } from "react-router-dom";
 
@@ -12,11 +13,9 @@ function Admin() {
     let { path, url } = useRouteMatch();
 
     useEffect(() => {
-        axios.get('https://jpc-express.herokuapp.com/inventory')
+        axios.get(env.apiPrefix + 'stores')
             .then(res => {
-                //setStores(res.data.stores);
-                const inventory = res.data;
-                console.log(inventory);
+                setStores(res.data);
             });
     }, []);
 
