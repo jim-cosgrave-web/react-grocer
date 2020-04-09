@@ -21,7 +21,11 @@ function StoreCategory({ category, onMove }) {
                 </div>
             </div>
             <div className="card-body">
-                
+                {category.groceries && category.groceries.map((grocery, index) => {
+                    return (
+                        <div><button>Up</button><button>Down</button>{grocery.groceryName}</div>
+                    );
+                })}
             </div>
         </div>
     )
