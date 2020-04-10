@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-function StoreCategory({ category, onMove }) {
+import axios from 'axios';
+import env from './../../Shared/Environment';
+
+function StoreCategory({ category, onMove, storeId }) {
+    const [groceries, setGroceries] = useState(category.groceries);
+    
     const moveLeft = () => {
         onMove(category, -1);
     }
@@ -9,11 +14,51 @@ function StoreCategory({ category, onMove }) {
         onMove(category, 1);
     }
 
+    const moveGroceryUp = (grocery) => {
+        moveGrocery(grocery, -1);
+    }
+
+    const moveGroceryDown = (grocery) => {
+        moveGrocery(grocery, 1);
+    }
+
+    const moveGrocery = (grocery, direction) => {
+        let workingSet = groceries.slice();
+        const newOrder = grocery.order + direction;
+
+        //
+        // Dont go less than one
+        //
+        if (newOrder < 1) {
+            return;
+        }
+
+        //
+        // Dont go over the end of the array
+        //
+        if (newOrder > workingSet.length) {
+            return;
+        }
+
+        const updateModel = {};
+        updateModel.category = category.name;
+        updateModel.currentGrocery = { groceryName: grocery.groceryName, order: grocery.order };
+        updateModel.updatedGrocery = { groceryName: grocery.groceryName, order: newOrder };
+
+        const swap = workingSet.find(c => c.order == newOrder);
+        swap.order = grocery.order;
+        grocery.order = newOrder;
+
+        workingSet.sort((a, b) => { return a.order - b.order; });
+        setGroceries(workingSet);
+        axios.put(env.apiPrefix + 'stores/' + storeId + '/grocery', updateModel);
+    }
+
     return (
         <div className="card grocery-category-card">
             <div className="card-header flex-grid">
                 <div>
-                    { category.name } 
+                    {category.name}
                 </div>
                 <div>
                     <button onClick={moveLeft}>&lt;&lt;</button>
@@ -21,9 +66,13 @@ function StoreCategory({ category, onMove }) {
                 </div>
             </div>
             <div className="card-body">
-                {category.groceries && category.groceries.map((grocery, index) => {
+                {groceries && groceries.map((grocery, index) => {
                     return (
-                        <div><button>Up</button><button>Down</button>{grocery.groceryName}</div>
+                        <div key={index}>
+                            <button onClick={() => moveGroceryUp(grocery)}>Up</button>
+                            <button onClick={() => moveGroceryDown(grocery)}>Down</button>
+                            {grocery.groceryName}
+                        </div>
                     );
                 })}
             </div>

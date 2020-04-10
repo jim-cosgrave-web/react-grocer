@@ -17,9 +17,19 @@ function StoreDetails(props) {
         axios.get(env.apiPrefix + 'stores/' + id)
             .then(res => {
                 const store = res.data[0];
-                store.categories = store.categories.sort(function (a, b) {
-                    return a.order - b.order;
-                });
+
+                //
+                // Sort categories
+                //
+                store.categories.sort((a, b) => { return a.order - b.order; });
+
+                //
+                // Sort category groceries
+                //
+                for(let i = 0; i < store.categories.length; i++) {
+                    store.categories[i].groceries.sort((a, b) => { return a.order - b.order });
+                }
+                
                 setStore(store);
             })
     }, []);
