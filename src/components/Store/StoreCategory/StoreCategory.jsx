@@ -5,7 +5,9 @@ import env from './../../Shared/Environment';
 
 function StoreCategory({ category, onMove, storeId }) {
     const [groceries, setGroceries] = useState(category.groceries);
-    
+    const [newGrocery, setNewGrocery] = useState("");
+    const inputRef = React.createRef()
+
     const moveLeft = () => {
         onMove(category, -1);
     }
@@ -54,6 +56,22 @@ function StoreCategory({ category, onMove, storeId }) {
         axios.put(env.apiPrefix + 'stores/' + storeId + '/grocery', updateModel);
     }
 
+    const updateNewGrocery = () => {
+        const inputText = inputRef.current.value
+        setNewGrocery(inputText)
+    }
+
+    const addGrocery = () => {
+        const inputText = inputRef.current.value
+        const body = { category: category.name, groceryName: inputText };
+        axios.post(env.apiPrefix + 'stores/' + storeId + '/grocery', body).then((res) => {
+            const newGrocery = res.data;
+            let workingSet = groceries.slice();
+            workingSet.push(newGrocery);
+            setGroceries(workingSet);
+        });
+    }
+
     return (
         <div className="card grocery-category-card">
             <div className="card-header flex-grid">
@@ -66,6 +84,14 @@ function StoreCategory({ category, onMove, storeId }) {
                 </div>
             </div>
             <div className="card-body">
+                <div className="add-grocery-container">
+                    <div>
+                        <input ref={inputRef} placeholder="Add a grocery..." />
+                    </div>
+                    <div>
+                        <button onClick={addGrocery}>Add</button>
+                    </div>
+                </div>
                 {groceries && groceries.map((grocery, index) => {
                     return (
                         <div key={index}>
