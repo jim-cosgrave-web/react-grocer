@@ -61,13 +61,37 @@ function StoreCategory({ category, onMove, storeId }) {
         setNewGrocery(inputText)
     }
 
+    const handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+          addGrocery();
+        }
+      }
+
     const addGrocery = () => {
         const inputText = inputRef.current.value
         const body = { category: category.name, groceryName: inputText };
+        inputRef.current.value = '';    
+        inputRef.current.focus();
+
         axios.post(env.apiPrefix + 'stores/' + storeId + '/grocery', body).then((res) => {
             const newGrocery = res.data;
             let workingSet = groceries.slice();
             workingSet.push(newGrocery);
+            setGroceries(workingSet);
+        });
+    }
+
+    const deleteGrocery = (grocery) => {
+        const body = {data : {
+            "category": category.name,
+            "groceryName": grocery.groceryName
+        }};
+
+        axios.delete(env.apiPrefix + 'stores/' + storeId + '/grocery', body).then((res) => {
+            console.log(res);
+            let workingSet = groceries.slice();
+            const index = workingSet.indexOf(grocery);
+            workingSet.splice(index, 1);
             setGroceries(workingSet);
         });
     }
@@ -86,7 +110,7 @@ function StoreCategory({ category, onMove, storeId }) {
             <div className="card-body">
                 <div className="add-grocery-container">
                     <div>
-                        <input ref={inputRef} placeholder="Add a grocery..." />
+                        <input ref={inputRef} placeholder="Add a grocery..." onKeyPress={handleKeyPress} />
                     </div>
                     <div>
                         <button onClick={addGrocery}>Add</button>
@@ -97,6 +121,7 @@ function StoreCategory({ category, onMove, storeId }) {
                         <div key={index}>
                             <button onClick={() => moveGroceryUp(grocery)}>Up</button>
                             <button onClick={() => moveGroceryDown(grocery)}>Down</button>
+                            <button onClick={() => deleteGrocery(grocery)}>Delete</button>
                             {grocery.groceryName}
                         </div>
                     );

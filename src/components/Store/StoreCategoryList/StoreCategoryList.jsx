@@ -6,33 +6,9 @@ import env from './../../Shared/Environment';
 
 function StoreCategoryList(props) {
     const [categories, setCategories] = useState(props.categories);
-
-    const handleMove_old = (category, direction) => {
-        const workingSet = categories.slice();
-        const i = workingSet.indexOf(category);
-        const movedCategory = workingSet.splice(i, 1)[0];
-        let movement = i + direction;
-
-        if (movement < 0 || movement > workingSet.length) {
-            return;
-        }
-
-        workingSet.splice(movement, 0, movedCategory);
-        setCategories(workingSet);
-
-        const previousSortOrder = movedCategory.sortOrder;
-        movedCategory.sortOrder = movedCategory.sortOrder + direction;
-        const otherCategory = categories.find(c => c.sortOrder == movedCategory.sortOrder && c.storeCategoryId !== movedCategory.storeCategoryId);
-        otherCategory.sortOrder = previousSortOrder;
-        //updateCategory(movedCategory);
-
-        let res = categories.map((category) => {
-            return { storeCategoryId: category.storeCategoryId, sortOrder: category.sortOrder };
-        });
-    }
+    const inputRef = React.createRef();
 
     const handleMove = (category, direction) => {
-        //debugger;
         let workingSet = categories.slice();
         const newOrder = category.order + direction;
 
@@ -71,13 +47,34 @@ function StoreCategoryList(props) {
         axios.put(env.apiPrefix + 'stores/' + props.storeId + '/category', category);
     }
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            addCategory();
+        }
+    }
+
+    const addCategory = () => {
+        const inputText = inputRef.current.value
+        const body = { category: inputText };
+        inputRef.current.value = '';
+        inputRef.current.focus();
+        
+        axios.post(env.apiPrefix + 'stores/' + props.storeId + '/category', body).then(res => {
+            setCategories(res.data);
+        });
+    }
+
     return (
         <div>
             <div className="flex-grid">
                 {categories && categories.map((category, index) => {
                     return <StoreCategory key={index} category={category} onMove={handleMove} storeId={props.storeId}></StoreCategory>
                 })}
+                
             </div>
+            <div>
+                    <input ref={inputRef} placeholder="Add a category..." onKeyPress={handleKeyPress} />
+                </div>
         </div>
     );
 }
