@@ -11,11 +11,10 @@ const Grocery = (props) => {
         }
 
         updateTimeout = setTimeout(() => {
-            console.log('updating');
             grocery.note = inputRef.current.value;
             setGrocery(grocery);
             props.update(grocery);
-        }, 1000);
+        }, 500);
     }
 
 

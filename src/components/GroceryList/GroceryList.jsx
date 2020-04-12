@@ -14,14 +14,26 @@ const GroceryList = (props) => {
         axios.get(env.apiPrefix + 'list')
             .then(res => {
                 const l = res.data[0];
-                l.groceries.sort(compareNames);
-                console.log(l);
+
+                if (l.groceries) {
+                    l.groceries.sort(compareNames);
+                }
+
                 setList(l);
             });
     }, []);
 
     const changeHandler = (value) => {
-        console.log('GroceryList.jsx', value);
+        const body = {
+            "list_id": list._id,
+            "grocery": {
+                "name": value
+            }
+        };
+
+        axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
+            setList(res.data);
+        });
     }
 
     const compareNames = (a, b) => {
@@ -44,7 +56,7 @@ const GroceryList = (props) => {
         <div className="grocery-list">
             <GrocerySearch onChange={changeHandler}></GrocerySearch>
             <div className="list">
-                {list && list.groceries.map((g, index) => {
+                {list && list.groceries && list.groceries.map((g, index) => {
                     return <Grocery grocery={g} key={index} update={updateGrocery}></Grocery>
                 })}
             </div>
