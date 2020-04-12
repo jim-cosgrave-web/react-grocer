@@ -31,9 +31,13 @@ const GroceryList = (props) => {
             }
         };
 
-        axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
-            setList(res.data);
-        });
+        const grocery = list.groceries.find(g => g.name == value);
+
+        if (!grocery) {
+            axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
+                setList(res.data);
+            });
+        }
     }
 
     const compareNames = (a, b) => {
