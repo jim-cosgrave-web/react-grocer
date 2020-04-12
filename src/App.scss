@@ -273,3 +273,35 @@ Store
 .add-grocery-container {
   display: flex;
 }
+
+
+/******************************************************************
+List
+******************************************************************/
+
+.list {
+  .list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+    color: black;
+
+    .list-item-name{
+
+    }
+
+    .list-item-note{
+      font-style: italic;
+      color: lighten(black, 30%);
+    }
+  }
+
+  .list-item:nth-child(odd) {
+    background: #e8e3e3;
+  }
+}
+
+
+/******************************************************************
+END List
+******************************************************************/

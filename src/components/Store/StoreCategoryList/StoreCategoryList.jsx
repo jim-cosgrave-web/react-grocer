@@ -58,7 +58,7 @@ function StoreCategoryList(props) {
         const body = { category: inputText };
         inputRef.current.value = '';
         inputRef.current.focus();
-        
+
         axios.post(env.apiPrefix + 'stores/' + props.storeId + '/category', body).then(res => {
             setCategories(res.data);
         });
@@ -70,11 +70,11 @@ function StoreCategoryList(props) {
                 {categories && categories.map((category, index) => {
                     return <StoreCategory key={index} category={category} onMove={handleMove} storeId={props.storeId}></StoreCategory>
                 })}
-                
+
             </div>
             <div>
-                    <input ref={inputRef} placeholder="Add a category..." onKeyPress={handleKeyPress} />
-                </div>
+                <input ref={inputRef} placeholder="Add a category..." onKeyPress={handleKeyPress} />
+            </div>
         </div>
     );
 }

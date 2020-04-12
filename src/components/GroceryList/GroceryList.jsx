@@ -3,67 +3,49 @@ import GrocerySearch from './GrocerySearch/GrocerySearch';
 import Grocery from './Grocery/Grocery';
 import GroceryGroup from './GroceryGroup/GroceryGroup';
 
+import axios from 'axios';
+import env from '../Shared/Environment';
+
 const GroceryList = (props) => {
-    const [groceries, setGroceries] = useState([]);
+    const [list, setList] = useState(null);
 
-    const getGroceries = () => {
-        let groceries = [
-            {
-                groupName: 'Vegetables',
-                groceries: [
-                  {
-                      id: 1,
-                      name: 'Apples',
-                      checked: false
-                  },
-                  {
-                    id: 2,
-                    name: 'Tomatoes',
-                    checked: false,
-                    notes: '5 roma'
-                  },
-                  {
-                    id: 3,
-                    name: 'Milk',
-                    checked: true
-                  }
-                ]
-            },
-            {
-                groupName: 'Breakfast',
-                groceries: [
-                  {
-                      id: 4,
-                      name: 'Breakfast Bars',
-                      checked: true
-                  },
-                  {
-                    id: 5,
-                    name: 'Cereal',
-                    checked: false,
-                    notes: 'Honey Nut Cherrios'
-                  }
-                ]
-            }
-        ];
-
-        return groceries;
-    }
 
     useEffect(() => {
-        setGroceries(getGroceries());
+        axios.get(env.apiPrefix + 'list')
+            .then(res => {
+                const l = res.data[0];
+                l.groceries.sort(compareNames);
+                console.log(l);
+                setList(l);
+            });
     }, []);
 
     const changeHandler = (value) => {
         console.log('GroceryList.jsx', value);
     }
 
+    const compareNames = (a, b) => {
+        if (a.name < b.name) {
+            return -1;
+        }
+        if (a.name > b.name) {
+            return 1;
+        }
+        return 0;
+    }
+
+    const updateGrocery = (grocery) => {
+        const body = { list_id: list._id, grocery: grocery };
+
+        axios.put(env.apiPrefix + 'list/grocery', body);
+    }
+
     let content = (
         <div className="grocery-list">
             <GrocerySearch onChange={changeHandler}></GrocerySearch>
             <div className="list">
-                {groceries.map((g, index) => {
-                    return <GroceryGroup key={index} group={g}></GroceryGroup>
+                {list && list.groceries.map((g, index) => {
+                    return <Grocery grocery={g} key={index} update={updateGrocery}></Grocery>
                 })}
             </div>
         </div>

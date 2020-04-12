@@ -2,31 +2,31 @@ import React, { useState, useEffect } from 'react';
 
 const Grocery = (props) => {
     const [grocery, setGrocery] = useState(props.grocery);
-    const [checked, setChecked] = useState(props.grocery.checked);
-    console.log('rendering');
+    const inputRef = React.createRef();
+    let updateTimeout = null;
 
-    const handleCheck = (e) => {
-        setChecked(!checked);
+    const handleKeyPress = (event) => {
+        if(updateTimeout) {
+            clearTimeout(updateTimeout);
+        }
+
+        updateTimeout = setTimeout(() => {
+            console.log('updating');
+            grocery.note = inputRef.current.value;
+            setGrocery(grocery);
+            props.update(grocery);
+        }, 1000);
     }
 
-    let content = 
-    <div className="grocery">
-        <div className="grocery-name">
-            <div>
-            { grocery.name }
-            </div>
-            {grocery.notes && 
-                <div className="note">
-                    { grocery.notes }
-                </div>}
-        </div>
-        <div className="grocery-check-container">
-            <input onChange={handleCheck} type="checkbox" defaultChecked={grocery.checked}></input>
-            <div>
-                {checked ? <span>yes</span> : <span>no</span>}
+
+    let content = (
+        <div className="list-item">
+            <div className="list-item-name">{grocery.name}</div>
+            <div className="list-item-note">
+                <input ref={inputRef} onKeyUp={handleKeyPress} defaultValue={grocery.note}></input>
             </div>
         </div>
-    </div>;
+    )
 
     return content;
 }
