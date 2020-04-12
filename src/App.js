@@ -20,7 +20,7 @@ function App() {
     <Router>
       <div>
         <Menu></Menu>
-        <div style={{padding: '1rem'}}>
+        <div style={{padding: '.5rem'}}>
           <Switch>
             <Route path="/admin/store/:id">
               <StoreDetails></StoreDetails>

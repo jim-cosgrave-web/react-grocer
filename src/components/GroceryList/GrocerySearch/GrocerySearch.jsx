@@ -48,7 +48,8 @@ const GrocerySearch = (props) => {
                 shouldItemRender={(item, value) => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1}
                 onKeyPress={() => console.log('test')}
             />
-            <button onClick={() => handleSelect(value)}>Add</button>
+            {/* <button className="g-btn" onClick={() => handleSelect(value)}>Add</button> */}
+            <div className="g-btn search-add-btn">Add</div>
         </div>
     );
 

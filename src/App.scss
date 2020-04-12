@@ -1,3 +1,9 @@
+$primary: rgba(66, 62, 55, 1);
+$secondary: rgba(227, 178, 60, 1);
+$tertiary:  rgba(237, 235, 215, 1);
+$quarternary: rgba(163, 149, 148, 1);
+$quinary: rgba(110, 103, 95, 1);
+
 .App {
   text-align: center;
 }
@@ -13,13 +19,17 @@
   }
 }
 
+body {
+  box-sizing: border-box;;
+}
+
 .App-header {
-  background-color: #282c34;
+  background-color: $primary;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -36,12 +46,6 @@
     transform: rotate(360deg);
   }
 }
-
-$primary: rgba(66, 62, 55, 1);
-$secondary: rgba(227, 178, 60, 1);
-$tertiary:  rgba(237, 235, 215, 1);
-$quarternary: rgba(163, 149, 148, 1);
-$quinary: rgba(110, 103, 95, 1);
 
 .primary {
   background: $primary;
@@ -72,11 +76,49 @@ a {
   text-decoration: none;
 }
 
-button {
-  font-size: 1rem;
-  padding: 5px 12px;
-  background-color: $tertiary;
+.grocery-search {
+  * {
+    box-sizing: border-box;
+  }
+
+  >div {
+    flex-grow: 0.5;
+    display: block !important;
+    align-items: stretch;
+
+    div{
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    input {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  display: flex;
+  box-sizing: border-box;;
+}
+
+.g-btn {
+  background-color: $primary;
+  color: white;
+  display: block;
+  text-align: center;
   cursor: pointer;
+  box-sizing: border-box;
+  padding: 2px;
+
+  &:active {
+    background-color: lighten($primary, 10%);
+  }
+}
+
+.search-add-btn {
+  flex-grow: 1 !important;
 }
 
 .padding-1 {
@@ -117,7 +159,7 @@ header {
 
     a {
       color: $tertiary;
-      padding: 16px;
+      padding: 2px 16px;
       display: inline-block;
     }
 
