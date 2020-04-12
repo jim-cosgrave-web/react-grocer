@@ -25,7 +25,6 @@ function Admin() {
                 {stores && stores.map((store, index) => {
                     return <StoreCard key={index} store={store}></StoreCard>
                 })}
-                <div>THIS IS THE ADMIN PAGE</div>
             </div>
         </div>
     );

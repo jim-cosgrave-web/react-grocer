@@ -49,7 +49,7 @@ const GrocerySearch = (props) => {
                 onKeyPress={() => console.log('test')}
             />
             {/* <button className="g-btn" onClick={() => handleSelect(value)}>Add</button> */}
-            <div className="g-btn search-add-btn">Add</div>
+            <div className="g-btn search-add-btn" onClick={() => handleSelect(value)}>Add</div>
         </div>
     );
 

@@ -220,10 +220,7 @@ Auto Complete
 /********************************************
 Grocery List
 ********************************************/
-.list {
-  max-width: 600px;
-  margin-top: 16px;
-}
+
 
 .grocery-group {
     border: 1px solid $primary;
@@ -322,8 +319,10 @@ Store
 /******************************************************************
 List
 ******************************************************************/
-
 .list {
+  max-width: 600px;
+  margin-bottom: 16px;
+
   .list-item {
     display: flex;
     justify-content: space-between;
@@ -343,6 +342,16 @@ List
   .list-item:nth-child(odd) {
     background: #e8e3e3;
   }
+}
+
+.list-category {
+  max-width: 600px;
+}
+
+.list-category-name {
+  background-color: $primary;
+  color: #fff;
+  padding: 5px;
 }
 
 

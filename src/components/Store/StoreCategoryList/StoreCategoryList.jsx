@@ -39,6 +39,8 @@ function StoreCategoryList(props) {
             return a.order - b.order;
         });
 
+        console.log(workingSet);
+
         setCategories(workingSet);
         updateCategory(updateModel);
     }

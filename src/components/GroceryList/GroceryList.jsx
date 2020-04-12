@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import GrocerySearch from './GrocerySearch/GrocerySearch';
 import Grocery from './Grocery/Grocery';
-import GroceryGroup from './GroceryGroup/GroceryGroup';
 
 import axios from 'axios';
 import env from '../Shared/Environment';
 
+import {
+    BrowserRouter as Router,
+    Link
+} from "react-router-dom";
+
 const GroceryList = (props) => {
     const [list, setList] = useState(null);
-
+    const [shopUrl, setShopUrl] = useState('');
 
     useEffect(() => {
         axios.get(env.apiPrefix + 'list')
@@ -20,6 +24,7 @@ const GroceryList = (props) => {
                 }
 
                 setList(l);
+                setShopUrl('/shop/' + l._id);
             });
     }, []);
 
@@ -57,13 +62,19 @@ const GroceryList = (props) => {
     }
 
     let content = (
-        <div className="grocery-list">
-            <GrocerySearch onChange={changeHandler}></GrocerySearch>
-            <div className="list">
+        <div className="grocery-list" style={{ maxWidth: "600px" }}>
+            <div>
+                {list && <Link className="g-btn" to={shopUrl}>Shop</Link>}
+            </div>
+            <div style={{ marginTop: "16px" }}>
+                <GrocerySearch onChange={changeHandler}></GrocerySearch>
+            </div>
+            <div className="list" style={{ marginTop: "16px" }}>
                 {list && list.groceries && list.groceries.map((g, index) => {
                     return <Grocery grocery={g} key={index} update={updateGrocery}></Grocery>
                 })}
             </div>
+            <GrocerySearch onChange={changeHandler}></GrocerySearch>
         </div>
     );
 

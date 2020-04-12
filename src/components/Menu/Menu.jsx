@@ -16,6 +16,7 @@ function Menu() {
 
         switch(path) {
             case '':
+            case 'shop':
                 setLink('home');
                 break;
             case 'admin': 

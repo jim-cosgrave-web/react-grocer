@@ -4,6 +4,7 @@ import './App.scss';
 import TestComponent from './components/test/testComponent';
 import Menu from './components/Menu/Menu';
 import GroceryList from './components/GroceryList/GroceryList';
+import StoreGroceryList from './components/GroceryList/StoreGroceryList/StoreGroceryList';
 import Admin from './components/Admin/Admin';
 import StoreDetails from './components/Store/StoreDetails/StoreDetails';
 
@@ -27,6 +28,9 @@ function App() {
             </Route>
             <Route path="/admin">
               <Admin></Admin>
+            </Route>
+            <Route path="/shop/:listId">
+              <StoreGroceryList></StoreGroceryList>
             </Route>
             <Route path="/">
               <GroceryList></GroceryList>
