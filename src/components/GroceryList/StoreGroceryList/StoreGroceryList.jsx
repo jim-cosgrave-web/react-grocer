@@ -47,7 +47,6 @@ const StoreGroceryList = (props) => {
         const url = env.apiPrefix + 'list/' + listId + '/' + store.value;
 
         axios.get(env.apiPrefix + 'list/' + listId + '/' + store.value).then(res => {
-            console.log(res.data);
             setList(res.data);
         });
     }
@@ -75,6 +74,35 @@ const StoreGroceryList = (props) => {
         }
     }
 
+    const handleCategorySet = (categoryName, grocery) => {
+        const newList = {...list};
+
+        //
+        // Remove from uncategorized
+        //
+        const uncategorized = newList.list.find(c => c.uncategorized);
+        const groceryToMove = uncategorized.groceries.find(g => g.name == grocery.name);
+        const index = uncategorized.groceries.indexOf(groceryToMove);
+        uncategorized.groceries.splice(index, 1);
+
+        uncategorized.hidden = uncategorized.groceries.length == 0;
+        
+        //
+        // Add to the new category
+        //
+        let newCategory = newList.list.find(c => c.name == categoryName);
+
+        if(!newCategory) {
+            newCategory = { name: categoryName, groceries: [] };
+            newList.list.push(newCategory);
+        }
+
+        newCategory.hidden = false;
+        newCategory.groceries.push(groceryToMove);
+
+        setList(newList);
+    }
+
     let content = (
         <div style={{ maxWidth: "600px" }}>
             <div>
@@ -97,13 +125,20 @@ const StoreGroceryList = (props) => {
             <div style={{ marginTop: "16px" }}>
                 {list && list.list.map((c, cIndex) => {
                     return (
-                        <div className="list-category" key={cIndex}>
+                        !c.hidden && <div className="list-category" key={cIndex}>
                             <div className="list-category-name">
                                 {c.name}
                             </div>
                             <div className="list">
                                 {c.groceries && c.groceries.map((g, gIndex) => {
-                                    return <Grocery grocery={g} key={gIndex} update={updateGrocery}></Grocery>
+                                    return <Grocery
+                                        grocery={g}
+                                        key={g.name}
+                                        update={updateGrocery}
+                                        uncategorized={c.uncategorized}
+                                        categories={list.categories}
+                                        onCategorySet={handleCategorySet}
+                                    ></Grocery>
                                 })}
                             </div>
                         </div>
