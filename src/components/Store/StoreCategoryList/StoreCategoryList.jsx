@@ -39,8 +39,6 @@ function StoreCategoryList(props) {
             return a.order - b.order;
         });
 
-        console.log(workingSet);
-
         setCategories(workingSet);
         updateCategory(updateModel);
     }
@@ -70,7 +68,7 @@ function StoreCategoryList(props) {
         <div>
             <div className="flex-grid">
                 {categories && categories.map((category, index) => {
-                    return <StoreCategory key={index} category={category} onMove={handleMove} storeId={props.storeId}></StoreCategory>
+                    return <StoreCategory key={category.name} category={category} onMove={handleMove} storeId={props.storeId}></StoreCategory>
                 })}
 
             </div>

@@ -31,7 +31,7 @@ const StoreGroceryList = (props) => {
 
             const ddl = [];
             storeData.forEach(s => {
-                ddl.push({ name: s.name, value: s._id });
+                ddl.push({ name: s.name, value: s._id, storeId: s.storeId });
             });
 
             const tempSelectedStore = ddl[0];
@@ -69,7 +69,7 @@ const StoreGroceryList = (props) => {
 
         if (!grocery) {
             axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
-                setList(res.data);
+                getStoreGroceryList(selectedStore.value);
             });
         }
     }
@@ -101,8 +101,18 @@ const StoreGroceryList = (props) => {
         newCategory.groceries.push(groceryToMove);
 
         setList(newList);
+
+        const body = { category: categoryName, groceryName: groceryToMove.name };
+
+        axios.post(env.apiPrefix + 'stores/' + selectedStore.storeId + '/grocery', body).then((res) => {
+            console.log(res);
+        });
     }
 
+    const postGrocery = () => {
+
+    }
+    
     let content = (
         <div style={{ maxWidth: "600px" }}>
             <div>
