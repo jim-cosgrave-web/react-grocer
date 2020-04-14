@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import axios from 'axios';
 import env from './../../Shared/Environment';
 
 function StoreCategory({ category, onMove, storeId }) {
     const [groceries, setGroceries] = useState(category.groceries);
-    const [newGrocery, setNewGrocery] = useState("");
     const inputRef = React.createRef()
 
     const moveLeft = () => {
@@ -54,11 +53,6 @@ function StoreCategory({ category, onMove, storeId }) {
         workingSet.sort((a, b) => { return a.order - b.order; });
         setGroceries(workingSet);
         axios.put(env.apiPrefix + 'stores/' + storeId + '/grocery', updateModel);
-    }
-
-    const updateNewGrocery = () => {
-        const inputText = inputRef.current.value
-        setNewGrocery(inputText)
     }
 
     const handleKeyPress = (event) => {

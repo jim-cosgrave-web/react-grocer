@@ -9,9 +9,7 @@ import {
 
 function Admin() {
     const [stores, setStores] = useState(null);
-
-    let { path, url } = useRouteMatch();
-
+    
     useEffect(() => {
         axios.get(env.apiPrefix + 'stores')
             .then(res => {

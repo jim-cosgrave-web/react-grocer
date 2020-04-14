@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import GrocerySearch from '../GrocerySearch/GrocerySearch';
 import Grocery from '../Grocery/Grocery';
-import GroceryGroup from '../GroceryGroup/GroceryGroup';
-
 import axios from 'axios';
 import env from '../../Shared/Environment';
 
 import {
-    BrowserRouter as Router,
-    useParams,
-    Link
+    useParams
 } from "react-router-dom";
 
 const StoreGroceryList = (props) => {
@@ -65,13 +61,25 @@ const StoreGroceryList = (props) => {
             }
         };
 
-        const grocery = list.groceries.find(g => g.name == value);
+        let grocery = null;
 
-        if (!grocery) {
-            axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
-                getStoreGroceryList(selectedStore.value);
-            });
+        for(let i = 0; i < list.list.length; i++) {
+            const category = list.list[i];
+            const grocery = category.groceries.find(g => g.name == value);  
+
+          if(grocery) {
+              break;
+          }
         }
+
+        console.log(grocery);
+        
+
+        // if (!grocery) {
+        //     axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
+        //         getStoreGroceryList(selectedStore.value);
+        //     });
+        // }
     }
 
     const handleCategorySet = (categoryName, grocery) => {
@@ -109,17 +117,16 @@ const StoreGroceryList = (props) => {
         });
     }
 
-    const postGrocery = () => {
-
+    const handleGroceryClick = (grocery) => {
+        const body = { list_id: listId, grocery: grocery };
+        axios.put(env.apiPrefix + 'list/grocery', body);
     }
     
     let content = (
         <div style={{ maxWidth: "600px" }}>
-            <div>
-                <Link className="g-btn" to="/">Home</Link>
-            </div>
-            <div>
-                <select>
+            <div>Shopping at {selectedStore && selectedStore.name}</div>
+            {storeDropDown && storeDropDown.length > 1 && <div>
+                <select style={{ width: "100%" }}>
                     {storeDropDown && storeDropDown.map((s, index) => {
                         return (
                             <option key={s.value} defaultValue={s.value}>
@@ -128,7 +135,7 @@ const StoreGroceryList = (props) => {
                         );
                     })}
                 </select>
-            </div>
+            </div>}
             <div style={{ marginTop: "16px" }}>
                 <GrocerySearch onChange={changeHandler}></GrocerySearch>
             </div>
@@ -148,6 +155,7 @@ const StoreGroceryList = (props) => {
                                         uncategorized={c.uncategorized}
                                         categories={list.categories}
                                         onCategorySet={handleCategorySet}
+                                        onClick={handleGroceryClick}
                                     ></Grocery>
                                 })}
                             </div>
@@ -156,7 +164,7 @@ const StoreGroceryList = (props) => {
                 })}
             </div>
             <div style={{ marginTop: "16px" }}>
-                <GrocerySearch onChange={changeHandler}></GrocerySearch>
+                {/* <GrocerySearch onChange={changeHandler}></GrocerySearch> */}
             </div>
         </div>
     );

@@ -13,6 +13,11 @@ $quinary: rgba(110, 103, 95, 1);
   pointer-events: none;
 }
 
+input {
+  border-radius: 0;
+  -webkit-border-radius:0px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -326,21 +331,38 @@ List
   .list-item {
     display: flex;
     justify-content: space-between;
-    padding: 0 0 0 5px;
+    align-items: center;
+    padding: 5px;
     color: black;
+    cursor: pointer;
+     border-bottom: 1px solid $primary;
+    // border-left: 1px solid $primary;
+    // border-right: 1px solid $primary;
+    border-collapse: collapse;
 
     .list-item-name{
       flex-grow: 1;
+      font-weight: bold;
     }
 
     .list-item-note{
       font-style: italic;
       color: lighten(black, 30%);
     }
+    
   }
 
   .list-item:nth-child(odd) {
     background: #e8e3e3;
+  }
+
+  .list-item.checked {
+    text-decoration: line-through;
+    opacity: .5;
+
+    .list-item-name {
+        font-weight: normal !important;
+    }
   }
 }
 

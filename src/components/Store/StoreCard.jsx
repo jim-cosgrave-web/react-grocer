@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './Store.scss';
 
 import {
-    BrowserRouter as Router,
     Link
 } from "react-router-dom";
 
 function StoreCard(props) {
     const store = props.store;
-    const [stores, setStores] = useState(null);
-
-    const handleStoreEdit = () => {
-        console.log(store.storeId);
-    }
 
     return (
         <div className="store store-card">

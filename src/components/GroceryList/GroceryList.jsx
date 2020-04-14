@@ -61,20 +61,29 @@ const GroceryList = (props) => {
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
 
+    const handleGroceryClick = (grocery) => {
+        const body = { list_id: list._id, grocery: grocery };
+        axios.put(env.apiPrefix + 'list/grocery', body);
+    }
+
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
             <div>
                 {list && <Link className="g-btn" to={shopUrl}>Shop</Link>}
             </div>
             <div style={{ marginTop: "16px" }}>
-                <GrocerySearch onChange={changeHandler}></GrocerySearch>
+                <GrocerySearch onClick={handleGroceryClick}></GrocerySearch>
             </div>
-            <div className="list" style={{ marginTop: "16px" }}>
+            <div style={{ marginTop: "16px" }} className="list-category">
+                <div className="list-category-name">
+                    Grocery List
+                </div>
+            </div>
+            <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {
-                    return <Grocery grocery={g} key={index} update={updateGrocery}></Grocery>
+                    return <Grocery onClick={handleGroceryClick} grocery={g} key={index} update={updateGrocery}></Grocery>
                 })}
             </div>
-            <GrocerySearch onChange={changeHandler}></GrocerySearch>
         </div>
     );
 

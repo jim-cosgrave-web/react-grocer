@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Grocery = (props) => {
     const [grocery, setGrocery] = useState(props.grocery);
     const inputRef = React.createRef();
     let updateTimeout = null;
 
-    const handleKeyPress = (event) => {
+    const handleKeyPress = () => {
         if (updateTimeout) {
             clearTimeout(updateTimeout);
         }
@@ -23,18 +23,30 @@ const Grocery = (props) => {
         props.onCategorySet(event.target.value, grocery);
     }
 
-    let content = (
-        <div className="list-item">
+    const handleGroceryClick = (event) => {
+        if(event.target.className.indexOf('prevent-click') === -1) {
+            if(typeof(props.onClick) == 'function') {
+                grocery.checked = !grocery.checked;
+                props.onClick(grocery);
+
+                let clone = {...grocery};
+                setGrocery(clone);
+            }
+        }
+    }
+
+    let content = ( 
+        <div className={"list-item" + (grocery.checked ? ' checked': '')} onClick={handleGroceryClick}>
             <div className="list-item-name">{grocery.name}</div>
             {props.uncategorized && (
                 <div>
-                    <select onChange={handleCategoryChange}>
+                    <select className="prevent-click" onChange={handleCategoryChange}>
                         {props.categories.map((c, i) => { return <option key={c.name} defaultValue={c.name}>{c.name}</option>; })}
                     </select>
                 </div>
             )}
             <div className="list-item-note">
-                <input ref={inputRef} onKeyUp={handleKeyPress} defaultValue={grocery.note}></input>
+                <input className="prevent-click" ref={inputRef} onKeyUp={handleKeyPress} defaultValue={grocery.note}></input>
             </div>
         </div>
     )

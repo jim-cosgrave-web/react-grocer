@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import env from '../../Shared/Environment';
 import Autocomplete from 'react-autocomplete';
@@ -6,10 +6,7 @@ import { compare } from './../../../utils/compare';
 
 const GrocerySearch = (props) => {
     const [groceries, setGroceries] = useState([]);
-    const [count, setCount] = useState(0);
     const [value, setValue] = useState('');
-
-    let items = [];
 
     useEffect(() => {
         getData();
@@ -20,6 +17,7 @@ const GrocerySearch = (props) => {
             .then(res => {
                 if (res.data) {
                     const values = res.data.sort(compare);
+                    //console.log(values);
                     setGroceries(values);
                 }
             }).catch(res => {
