@@ -64,11 +64,45 @@ function StoreCategoryList(props) {
         });
     }
 
+    const handleGroceryCategoryChange = (category, grocery, newCategoryName) => {
+        //
+        // Remove from current category
+        //
+        const gIndex = category.groceries.indexOf(grocery);
+        category.groceries.splice(gIndex, 1);
+
+        let categoriesClone = categories.slice();
+        const cIndex = categoriesClone.indexOf(category);
+        categoriesClone[cIndex] = category;
+
+        let newCategory = categoriesClone.find(c => c.name == newCategoryName);
+        newCategory.groceries.push(grocery);
+
+        setCategories(categoriesClone);
+
+        const body = {
+            "groceryName": grocery.groceryName,
+            "currentCategoryName": category.name,
+            "newCategoryName": newCategoryName
+        };
+
+        const url = env.apiPrefix + 'stores/' + props.storeId + '/changeGroceryCategory';
+
+        axios.put(url, body);
+    }
+
     return (
         <div>
             <div className="flex-grid">
                 {categories && categories.map((category, index) => {
-                    return <StoreCategory key={category.name} category={category} onMove={handleMove} storeId={props.storeId}></StoreCategory>
+                    return <StoreCategory 
+                        key={category.name} 
+                        category={category} 
+                        onMove={handleMove} 
+                        storeId={props.storeId}
+                        categoryList={props.categoryList}
+                        onGroceryCategoryChange={handleGroceryCategoryChange}>
+                    </StoreCategory>
                 })}
 
             </div>

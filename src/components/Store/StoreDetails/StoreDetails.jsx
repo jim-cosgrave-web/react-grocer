@@ -17,6 +17,13 @@ function StoreDetails(props) {
         axios.get(env.apiPrefix + 'stores/' + id)
             .then(res => {
                 const store = res.data[0];
+                let categoryList = [];
+
+                store.categories.forEach(c => {
+                    categoryList.push({ name: c.name, value: c.name });
+                });
+
+                store.categoryList = categoryList;
 
                 //
                 // Sort categories
@@ -29,7 +36,7 @@ function StoreDetails(props) {
                 for(let i = 0; i < store.categories.length; i++) {
                     store.categories[i].groceries.sort((a, b) => { return a.order - b.order });
                 }
-                
+
                 setStore(store);
             })
     }, []);
@@ -42,7 +49,7 @@ function StoreDetails(props) {
                         <div className="store-name">{store.name} ({store.city} {store.stateProvince})</div>
                     </div>
                     <div>
-                        <StoreCategoryList storeId={store.storeId} categories={store.categories}></StoreCategoryList>
+                        <StoreCategoryList storeId={store.storeId} categories={store.categories} categoryList={store.categoryList}></StoreCategoryList>
                     </div>
                 </div>
                 : <div>Loading</div>
