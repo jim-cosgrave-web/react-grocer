@@ -316,6 +316,18 @@ Store
   width: 32%;
 }
 
+@media only screen and (max-width: 1200px) {
+  .grocery-category-card {
+    width: 48%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .grocery-category-card {
+    width: 100%;
+  }
+}
+
 .add-grocery-container {
   display: flex;
 }

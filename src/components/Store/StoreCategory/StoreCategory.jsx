@@ -5,7 +5,9 @@ import env from './../../Shared/Environment';
 
 function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCategoryChange }) {
     const [groceries, setGroceries] = useState(category.groceries);
-    const inputRef = React.createRef()
+    const [editing, setEditing] = useState(false);
+    const inputRef = React.createRef();
+    const iCategoryNameRef = React.createRef();
 
     const moveLeft = () => {
         onMove(category, -1);
@@ -96,11 +98,32 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
         onGroceryCategoryChange(category, grocery, event.target.value);
     }
 
+    const toggleEdit = (value) => {
+        setEditing(value);
+
+        if(!value) {
+            let clone = {...category};
+            clone.name = iCategoryNameRef.current.value;
+            //setCategory
+        }
+    }
+
     return (
         <div className="card grocery-category-card">
             <div className="card-header flex-grid">
                 <div>
-                    {category.name}
+                    {!editing &&
+                        <div>
+                            <span>{category.name}</span>
+                            <button onClick={() => toggleEdit(true)}>Edit</button>
+                        </div>
+                    }
+                    {editing &&
+                        <div>
+                            <input ref={iCategoryNameRef} defaultValue={category.name}></input>
+                            <button onClick={() => toggleEdit(false)}>Save</button>
+                        </div>
+                    }
                 </div>
                 <div>
                     <button onClick={moveLeft}>&lt;&lt;</button>
