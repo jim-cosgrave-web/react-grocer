@@ -109,7 +109,7 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
                 clone.name = iCategoryNameRef.current.value;
                 const body = { currentCategory: category, updatedCategory: clone }
                 category = clone;
-                axios.put(env.apiPrefix + 'stores/S0000001/category', body);
+                axios.put(env.apiPrefix + 'stores/' + storeId + '/category', body);
             }
         }
     }
