@@ -101,10 +101,16 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
     const toggleEdit = (value) => {
         setEditing(value);
 
-        if(!value) {
-            let clone = {...category};
-            clone.name = iCategoryNameRef.current.value;
-            //setCategory
+        if (!value) {
+            let clone = { ...category };
+            const change = clone.name != iCategoryNameRef.current.value;
+
+            if (change) {
+                clone.name = iCategoryNameRef.current.value;
+                const body = { currentCategory: category, updatedCategory: clone }
+                category = clone;
+                axios.put(env.apiPrefix + 'stores/S0000001/category', body);
+            }
         }
     }
 
