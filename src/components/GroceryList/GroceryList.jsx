@@ -15,6 +15,18 @@ const GroceryList = (props) => {
     const [shopUrl, setShopUrl] = useState('');
 
     useEffect(() => {
+        getListData();
+
+        const interval = setInterval(() => {
+            getListData();
+        }, 10000);
+
+        return function() {
+            clearTimeout(interval);
+        }
+    }, []);
+
+    const getListData = () => {
         axios.get(env.apiPrefix + 'list')
             .then(res => {
                 const l = res.data[0];
@@ -26,7 +38,7 @@ const GroceryList = (props) => {
                 setList(l);
                 setShopUrl('/shop/' + l._id);
             });
-    }, []);
+    }
 
     const changeHandler = (value) => {
         const body = {
@@ -94,7 +106,7 @@ const GroceryList = (props) => {
                 {list && <Link className="g-btn" to={shopUrl}>Shop</Link>}
             </div>
             <div style={{ marginTop: "16px" }}>
-                <GrocerySearch onClick={handleGroceryClick}></GrocerySearch>
+                <GrocerySearch onChange={changeHandler}></GrocerySearch>
             </div>
             <div style={{ marginTop: "16px" }}>
                 <div className="g-btn" onClick={handleClearClick}>Clear Crossed-Off Groceries</div>
@@ -109,9 +121,9 @@ const GroceryList = (props) => {
             </div>
             <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {
-                    return <Grocery onClick={handleGroceryClick} grocery={g} key={g.name} update={updateGrocery}></Grocery>
+                    return <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery}></Grocery>
                 })}
-            </div>
+            </div> 
         </div>
     );
 

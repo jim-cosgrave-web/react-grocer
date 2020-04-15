@@ -13,11 +13,16 @@ const StoreGroceryList = (props) => {
     const [storeDropDown, setStoreDropDown] = useState([]);
     const [selectedStore, setSelectedStore] = useState(null);
     const [list, setList] = useState(null);
+    const [refreshInterval, setRefreshInterval] = useState(null);
 
     let { listId } = useParams();
 
     useEffect(() => {
         getStores();
+
+        return function () {
+            clearTimeout(refreshInterval);
+        }
     }, []);
 
     const getStores = () => {
@@ -36,15 +41,26 @@ const StoreGroceryList = (props) => {
             setSelectedStore(tempSelectedStore);
 
             getStoreGroceryList(tempSelectedStore);
+
+            const interval = setInterval(() => {
+                getStoreGroceryList();
+    
+            }, 10000);
         });
     }
 
     const getStoreGroceryList = (store) => {
-        const url = env.apiPrefix + 'list/' + listId + '/' + store.value;
+        if(selectedStore) {
+            store = selectedStore;
+        }
 
-        axios.get(env.apiPrefix + 'list/' + listId + '/' + store.value).then(res => {
-            setList(res.data);
-        });
+        if (store) {
+            console.log('getting data');
+
+            axios.get(env.apiPrefix + 'list/' + listId + '/' + store.value).then(res => {
+                setList(res.data);
+            });
+        }
     }
 
     const updateGrocery = (grocery) => {
@@ -72,14 +88,11 @@ const StoreGroceryList = (props) => {
             }
         }
 
-        console.log(grocery);
-
-
-        // if (!grocery) {
-        //     axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
-        //         getStoreGroceryList(selectedStore.value);
-        //     });
-        // }
+        if (!grocery) {
+            axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
+                getStoreGroceryList(selectedStore);
+            });
+        }
     }
 
     const handleCategorySet = (categoryName, grocery) => {
@@ -192,7 +205,7 @@ const StoreGroceryList = (props) => {
                                 {c.groceries && c.groceries.map((g, gIndex) => {
                                     return <Grocery
                                         grocery={g}
-                                        key={g.name}
+                                        key={g.name + '_' + g.checked}
                                         update={updateGrocery}
                                         uncategorized={c.uncategorized}
                                         categories={list.categories}
