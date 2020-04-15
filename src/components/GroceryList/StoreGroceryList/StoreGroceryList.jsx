@@ -63,17 +63,17 @@ const StoreGroceryList = (props) => {
 
         let grocery = null;
 
-        for(let i = 0; i < list.list.length; i++) {
+        for (let i = 0; i < list.list.length; i++) {
             const category = list.list[i];
-            const grocery = category.groceries.find(g => g.name == value);  
+            const grocery = category.groceries.find(g => g.name == value);
 
-          if(grocery) {
-              break;
-          }
+            if (grocery) {
+                break;
+            }
         }
 
         console.log(grocery);
-        
+
 
         // if (!grocery) {
         //     axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
@@ -83,7 +83,7 @@ const StoreGroceryList = (props) => {
     }
 
     const handleCategorySet = (categoryName, grocery) => {
-        const newList = {...list};
+        const newList = { ...list };
 
         //
         // Remove from uncategorized
@@ -94,13 +94,13 @@ const StoreGroceryList = (props) => {
         uncategorized.groceries.splice(index, 1);
 
         uncategorized.hidden = uncategorized.groceries.length == 0;
-        
+
         //
         // Add to the new category
         //
         let newCategory = newList.list.find(c => c.name == categoryName);
 
-        if(!newCategory) {
+        if (!newCategory) {
             newCategory = { name: categoryName, groceries: [] };
             newList.list.push(newCategory);
         }
@@ -121,7 +121,40 @@ const StoreGroceryList = (props) => {
         const body = { list_id: listId, grocery: grocery };
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
-    
+
+    const handleClearClick = () => {
+
+        let clone = { ...list };
+        let updateMade = false;
+        //debugger;
+
+        for (let i = 0; i < clone.list.length; i++) {
+            let indices = [];
+            let categories = clone.list[i];
+
+            for (let j = 0; j < categories.groceries.length; j++) {
+                if (categories.groceries[j].checked) {
+                    indices.push(j);
+                }
+            }
+
+            if (indices.length > 0) {
+                for (let j = indices.length - 1; j >= 0; j--) {
+                    clone.list[i].groceries.splice(indices[j], 1);
+                }
+
+                updateMade = true;
+            }
+        }
+
+        if (updateMade) {
+            setList(clone);
+
+            const body = { list_id: clone.listId };
+            axios.post(env.apiPrefix + 'list/removechecked', body);
+        }
+    }
+
     let content = (
         <div style={{ maxWidth: "600px" }}>
             <div>Shopping at {selectedStore && selectedStore.name}</div>
@@ -140,12 +173,21 @@ const StoreGroceryList = (props) => {
                 <GrocerySearch onChange={changeHandler}></GrocerySearch>
             </div>
             <div style={{ marginTop: "16px" }}>
+                <div className="g-btn" onClick={handleClearClick}>Clear Crossed-Off Groceries</div>
+            </div>
+            <div style={{ marginTop: "16px" }}>
                 {list && list.list.map((c, cIndex) => {
                     return (
-                        !c.hidden && <div className="list-category" key={cIndex}>
+                        !c.hidden && <div className="list-category" key={c.name}>
                             <div className="list-category-name">
-                                {c.name}
+                                <div>
+                                    {c.name}
+                                </div>
+                                <div className="item-count">
+                                    {c.groceries && c.groceries.length} item(s)
                             </div>
+                            </div>
+
                             <div className="list">
                                 {c.groceries && c.groceries.map((g, gIndex) => {
                                     return <Grocery

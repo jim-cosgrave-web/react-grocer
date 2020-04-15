@@ -66,6 +66,28 @@ const GroceryList = (props) => {
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
 
+    const handleClearClick = () => {
+        let indices = [];
+        let clone = { ...list };
+
+        for (let i = 0; i < clone.groceries.length; i++) {
+            if (clone.groceries[i].checked) {
+                indices.push(i);
+            }
+        }
+
+        if (indices.length > 0) {
+            for (let i = indices.length - 1; i >= 0; i--) {
+                clone.groceries.splice(indices[i], 1);
+            }
+
+            setList(clone);
+
+            const body = { list_id: clone._id };
+            axios.post(env.apiPrefix + 'list/removechecked', body);
+        }
+    }
+
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
             <div>
@@ -74,14 +96,20 @@ const GroceryList = (props) => {
             <div style={{ marginTop: "16px" }}>
                 <GrocerySearch onClick={handleGroceryClick}></GrocerySearch>
             </div>
-            <div style={{ marginTop: "16px" }} className="list-category">
-                <div className="list-category-name">
+            <div style={{ marginTop: "16px" }}>
+                <div className="g-btn" onClick={handleClearClick}>Clear Crossed-Off Groceries</div>
+            </div>
+            <div style={{ marginTop: "16px" }} className="list-category-name">
+                <div>
                     Grocery List
+                </div>
+                <div className="item-count">
+                    {list && list.groceries.length} items
                 </div>
             </div>
             <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {
-                    return <Grocery onClick={handleGroceryClick} grocery={g} key={index} update={updateGrocery}></Grocery>
+                    return <Grocery onClick={handleGroceryClick} grocery={g} key={g.name} update={updateGrocery}></Grocery>
                 })}
             </div>
         </div>

@@ -386,6 +386,12 @@ List
   background-color: $primary;
   color: #fff;
   padding: 5px;
+  display: flex;
+  justify-content: space-between;
+
+  .item-count {
+    font-style: italic;
+  }
 }
 
 
