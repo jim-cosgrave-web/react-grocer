@@ -13,6 +13,7 @@ import {
 const GroceryList = (props) => {
     const [list, setList] = useState(null);
     const [shopUrl, setShopUrl] = useState('');
+    const groceryInputRef = React.createRef();
 
     useEffect(() => {
         getListData();
@@ -21,7 +22,7 @@ const GroceryList = (props) => {
             getListData();
         }, 10000);
 
-        return function() {
+        return function () {
             clearTimeout(interval);
         }
     }, []);
@@ -40,7 +41,15 @@ const GroceryList = (props) => {
             });
     }
 
-    const changeHandler = (value) => {
+    const handleInputKeyUp = (event) => {
+        if(event.key == 'Enter') {
+            handleAddGrocery();
+        }
+    }
+
+    const handleAddGrocery = () => {
+        let value = groceryInputRef.current.value;
+
         const body = {
             "list_id": list._id,
             "grocery": {
@@ -55,6 +64,9 @@ const GroceryList = (props) => {
                 setList(res.data);
             });
         }
+
+        groceryInputRef.current.value = '';
+        groceryInputRef.current.focus();
     }
 
     const compareNames = (a, b) => {
@@ -106,7 +118,13 @@ const GroceryList = (props) => {
                 {list && <Link className="g-btn" to={shopUrl}>Shop</Link>}
             </div>
             <div style={{ marginTop: "16px" }}>
-                <GrocerySearch onChange={changeHandler}></GrocerySearch>
+                {/* <GrocerySearch onChange={handleAddGrocery}></GrocerySearch> */}
+                <div className="grocery-search">
+                    <div>
+                        <input type="text" ref={groceryInputRef} onKeyUp={handleInputKeyUp}></input>
+                    </div>
+                    <div className="g-btn search-add-btn" onClick={handleAddGrocery}>Add</div>
+                </div>
             </div>
             <div style={{ marginTop: "16px" }}>
                 <div className="g-btn" onClick={handleClearClick}>Clear Crossed-Off Groceries</div>
@@ -123,7 +141,7 @@ const GroceryList = (props) => {
                 {list && list.groceries && list.groceries.map((g, index) => {
                     return <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery}></Grocery>
                 })}
-            </div> 
+            </div>
         </div>
     );
 

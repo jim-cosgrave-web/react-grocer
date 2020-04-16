@@ -14,6 +14,7 @@ const StoreGroceryList = (props) => {
     const [selectedStore, setSelectedStore] = useState(null);
     const [list, setList] = useState(null);
     const [refreshInterval, setRefreshInterval] = useState(null);
+    const groceryInputRef = React.createRef();
 
     let { listId } = useParams();
 
@@ -44,13 +45,13 @@ const StoreGroceryList = (props) => {
 
             const interval = setInterval(() => {
                 getStoreGroceryList();
-    
+
             }, 10000);
         });
     }
 
     const getStoreGroceryList = (store) => {
-        if(selectedStore) {
+        if (selectedStore) {
             store = selectedStore;
         }
 
@@ -69,7 +70,15 @@ const StoreGroceryList = (props) => {
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
 
-    const changeHandler = (value) => {
+    const handleInputKeyUp = (event) => {
+        if(event.key == 'Enter') {
+            handleAddGrocery();
+        }
+    }
+
+    const handleAddGrocery = () => {
+        let value = groceryInputRef.current.value;
+
         const body = {
             "list_id": listId,
             "grocery": {
@@ -93,6 +102,9 @@ const StoreGroceryList = (props) => {
                 getStoreGroceryList(selectedStore);
             });
         }
+
+        groceryInputRef.current.value = '';
+        groceryInputRef.current.focus();
     }
 
     const handleCategorySet = (categoryName, grocery) => {
@@ -183,7 +195,13 @@ const StoreGroceryList = (props) => {
                 </select>
             </div>}
             <div style={{ marginTop: "16px" }}>
-                <GrocerySearch onChange={changeHandler}></GrocerySearch>
+                {/* <GrocerySearch onChange={handleAddGrocery}></GrocerySearch> */}
+                <div className="grocery-search">
+                    <div>
+                        <input type="text" ref={groceryInputRef} onKeyUp={handleInputKeyUp}></input>
+                    </div>
+                    <div className="g-btn search-add-btn" onClick={handleAddGrocery}>Add</div>
+                </div>
             </div>
             <div style={{ marginTop: "16px" }}>
                 <div className="g-btn" onClick={handleClearClick}>Clear Crossed-Off Groceries</div>
