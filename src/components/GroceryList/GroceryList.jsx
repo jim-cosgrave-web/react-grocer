@@ -114,9 +114,6 @@ const GroceryList = (props) => {
 
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
-            <div>
-                {list && <Link className="g-btn" to={shopUrl}>Shop</Link>}
-            </div>
             <div style={{ marginTop: "16px" }}>
                 {/* <GrocerySearch onChange={handleAddGrocery}></GrocerySearch> */}
                 <div className="grocery-search">
