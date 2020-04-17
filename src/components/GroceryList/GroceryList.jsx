@@ -16,6 +16,8 @@ const GroceryList = (props) => {
     const groceryInputRef = React.createRef();
 
     useEffect(() => {
+        //console.log(process.env);
+
         getListData();
 
         const interval = setInterval(() => {

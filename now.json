@@ -1,3 +1,7 @@
 {
-
-}
+    "build": {
+      "env": {
+        "REACT_APP_MY_KEY": "this is the value"
+      }
+    }
+  }
