@@ -3,18 +3,20 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import env from './../../Shared/Environment';
 
-function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCategoryChange }) {
-    const [groceries, setGroceries] = useState(category.groceries);
+function StoreCategory(props) {
+    // { category, onMove, storeId, categoryList, onGroceryCategoryChange }
+    const [category, setCategory] = useState(props.category);
+    const [groceries, setGroceries] = useState(props.category.groceries);
     const [editing, setEditing] = useState(false);
     const inputRef = React.createRef();
     const iCategoryNameRef = React.createRef();
 
     const moveLeft = () => {
-        onMove(category, -1);
+        props.onMove(category, -1);
     }
 
     const moveRight = () => {
-        onMove(category, 1);
+        props.onMove(category, 1);
     }
 
     const moveGroceryUp = (grocery) => {
@@ -54,7 +56,7 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
 
         workingSet.sort((a, b) => { return a.order - b.order; });
         setGroceries(workingSet);
-        axios.put(env.apiPrefix + 'stores/' + storeId + '/grocery', updateModel);
+        axios.put(env.apiPrefix + 'stores/' + props.storeId + '/grocery', updateModel);
     }
 
     const handleKeyPress = (event) => {
@@ -69,7 +71,7 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
         inputRef.current.value = '';
         inputRef.current.focus();
 
-        axios.post(env.apiPrefix + 'stores/' + storeId + '/grocery', body).then((res) => {
+        axios.post(env.apiPrefix + 'stores/' + props.storeId + '/grocery', body).then((res) => {
             const newGrocery = res.data;
             let workingSet = groceries.slice();
             workingSet.push(newGrocery);
@@ -85,7 +87,7 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
             }
         };
 
-        axios.delete(env.apiPrefix + 'stores/' + storeId + '/grocery', body).then((res) => {
+        axios.delete(env.apiPrefix + 'stores/' + props.storeId + '/grocery', body).then((res) => {
             console.log(res);
             let workingSet = groceries.slice();
             const index = workingSet.indexOf(grocery);
@@ -95,7 +97,7 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
     }
 
     const handleCategoryChange = (event, grocery) => {
-        onGroceryCategoryChange(category, grocery, event.target.value);
+        props.onGroceryCategoryChange(category, grocery, event.target.value);
     }
 
     const toggleEdit = (value) => {
@@ -108,9 +110,15 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
             if (change) {
                 clone.name = iCategoryNameRef.current.value;
                 const body = { currentCategory: category, updatedCategory: clone }
-                category = clone;
-                axios.put(env.apiPrefix + 'stores/' + storeId + '/category', body);
+                setCategory(clone);
+                axios.put(env.apiPrefix + 'stores/' + props.storeId + '/category', body);
             }
+        }
+    }
+
+    const handleCategoryNameKeyUp = (event) => {
+        if (event.key === 'Enter') {
+            toggleEdit(false);
         }
     }
 
@@ -126,7 +134,7 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
                     }
                     {editing &&
                         <div>
-                            <input ref={iCategoryNameRef} defaultValue={category.name}></input>
+                            <input ref={iCategoryNameRef} defaultValue={category.name} onKeyUp={handleCategoryNameKeyUp}></input>
                             <button onClick={() => toggleEdit(false)}>Save</button>
                         </div>
                     }
@@ -152,7 +160,7 @@ function StoreCategory({ category, onMove, storeId, categoryList, onGroceryCateg
                             <button onClick={() => moveGroceryDown(grocery)}>v</button>
                             <button onClick={() => deleteGrocery(grocery)}>X</button>
                             <select onChange={(event) => handleCategoryChange(event, grocery)} value={category.name}>
-                                {categoryList.map((c, i) => { return <option key={c.name} defaultValue={c.name}>{c.name}</option>; })}
+                                {props.categoryList.map((c, i) => { return <option key={c.name} defaultValue={c.name}>{c.name}</option>; })}
                             </select>
                             {grocery.groceryName}
                         </div>
