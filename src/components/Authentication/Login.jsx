@@ -32,6 +32,12 @@ const Login = (props) => {
         });
     }
 
+    const handleKeyUp = (event) => {
+        if (event.key === 'Enter') {
+            handleLoginClick();
+        }
+    }
+
     let content = (
         <div className="container">
             <div>
@@ -44,7 +50,7 @@ const Login = (props) => {
                 <br />
                 <input ref={refUsername} placeholder="Username" style={{fontSize: '20px', marginBottom: '10px', padding: '.2em', width: '100%'}}></input>
                 <br />
-                <input ref={refPassword} placeholder="Password" type="password" style={{fontSize: '20px', marginBottom: '10px', padding: '.2em', width: '100%'}}></input>
+                <input ref={refPassword} onKeyUp={handleKeyUp} placeholder="Password" type="password" style={{fontSize: '20px', marginBottom: '10px', padding: '.2em', width: '100%'}}></input>
                 <br />
                 <div onClick={handleLoginClick} className="g-btn" style={{fontSize: '20px', marginBottom: '10px', padding: '.2em'}}>Login</div>
             </div>

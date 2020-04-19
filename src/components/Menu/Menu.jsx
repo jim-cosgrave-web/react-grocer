@@ -59,12 +59,21 @@ function Menu() {
     }
 
     const getListData = () => {
-        axios.get(env.apiPrefix + 'list')
-            .then(res => {
-                const l = res.data[0];
+        const interval = setInterval(() => {
+            const token = localStorage.getItem('token');
 
-                setShopLink('/shop/' + l._id);
-            });
+            if(token) {
+                axios.get(env.apiPrefix + 'list')
+                .then(res => {
+                    const l = res.data[0];
+    
+                    setShopLink('/shop/' + l._id);
+                });
+
+                clearInterval(interval);
+            }
+        }, 1000);
+
     }
 
     return (
