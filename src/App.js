@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import TestComponent from './components/test/testComponent';
+import Login from './components/Authentication/Login';
 import Menu from './components/Menu/Menu';
 import GroceryList from './components/GroceryList/GroceryList';
 import StoreGroceryList from './components/GroceryList/StoreGroceryList/StoreGroceryList';
@@ -19,9 +19,9 @@ function App() {
 
   return (
     <Router>
-      <div>
+      <div className="h-100">
         <Menu></Menu>
-        <div style={{padding: '.5rem'}}>
+        <div className="h-100" style={{padding: '.5rem'}}>
           <Switch>
             <Route path="/admin/store/:id">
               <StoreDetails></StoreDetails>
@@ -32,8 +32,11 @@ function App() {
             <Route path="/shop/:listId">
               <StoreGroceryList></StoreGroceryList>
             </Route>
-            <Route path="/">
+            <Route path="/list">
               <GroceryList></GroceryList>
+            </Route>
+            <Route path="/">
+              <Login></Login>
             </Route>
           </Switch>
         </div>
