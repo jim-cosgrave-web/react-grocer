@@ -126,7 +126,7 @@ const GroceryList = (props) => {
                 </div>
             </div>
             <div style={{ marginTop: "16px" }}>
-                <div className="g-btn" onClick={handleClearClick}>Clear Groceries</div>
+                <div className="g-btn" onClick={handleClearClick}>Clear Checked</div>
             </div>
             <div style={{ marginTop: "16px" }} className="list-category-name">
                 <div>
