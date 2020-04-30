@@ -13,6 +13,7 @@ import {
 const GroceryList = (props) => {
     const [list, setList] = useState(null);
     const [shopUrl, setShopUrl] = useState('');
+    const [hideGroceries, setHideGroceries] = useState(false);
     const groceryInputRef = React.createRef();
 
     useEffect(() => {
@@ -44,7 +45,7 @@ const GroceryList = (props) => {
     }
 
     const handleInputKeyUp = (event) => {
-        if(event.key == 'Enter') {
+        if (event.key == 'Enter') {
             handleAddGrocery();
         }
     }
@@ -92,6 +93,24 @@ const GroceryList = (props) => {
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
 
+    const handleHideClick = () => {
+        const hidden = !hideGroceries;
+
+        let clone = { ...list };
+
+        for (let i = 0; i < clone.groceries.length; i++) {
+            let grocery = clone.groceries[i];
+
+            if (grocery.checked && hidden) {
+                grocery.hidden = true;
+            } else {
+                grocery.hidden = false;
+            }
+        }
+
+        setHideGroceries(hidden);
+    }
+
     const handleClearClick = () => {
         let indices = [];
         let clone = { ...list };
@@ -125,8 +144,9 @@ const GroceryList = (props) => {
                     <div className="g-btn search-add-btn" onClick={handleAddGrocery}>Add</div>
                 </div>
             </div>
-            <div style={{ marginTop: "16px" }}>
-                <div className="g-btn" onClick={handleClearClick}>Clear Groceries</div>
+            <div className="list-btn-container">
+                <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>{hideGroceries ? 'Show' : 'Hide'} Groceries</div>
+                <div className="g-btn g-btn-large btn-clear btn-danger noselect" onClick={handleClearClick}>Clear Groceries</div>
             </div>
             <div style={{ marginTop: "16px" }} className="list-category-name">
                 <div>
@@ -138,7 +158,7 @@ const GroceryList = (props) => {
             </div>
             <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {
-                    return <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery}></Grocery>
+                    return !g.hidden && <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery}></Grocery>
                 })}
             </div>
         </div>

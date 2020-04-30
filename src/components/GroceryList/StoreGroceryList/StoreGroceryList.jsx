@@ -227,8 +227,8 @@ const StoreGroceryList = (props) => {
                     <div className="g-btn search-add-btn" onClick={handleAddGrocery}>Add</div>
                 </div>
             </div>
-            <div className="list-btn-container" style={{ marginTop: "16px" }}>
-                <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>Hide Groceries</div>
+            <div className="list-btn-container">
+                <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>{hideGroceries ? 'Show' : 'Hide'} Groceries</div>
                 <div className="g-btn g-btn-large btn-clear btn-danger noselect" onClick={handleClearClick}>Clear Groceries</div>
             </div>
             <div style={{ marginTop: "16px" }}>
