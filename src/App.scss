@@ -4,6 +4,15 @@ $tertiary:  rgba(237, 235, 215, 1);
 $quarternary: rgba(163, 149, 148, 1);
 $quinary: rgba(110, 103, 95, 1);
 
+
+$warningBackgroundColor: #fff3cd;
+$warningBorderColor: #ab9e78;
+$warningTextColor: #856404;
+
+$dangerBackgroundColor: #f8d7da;
+$dangerBorderColor: #c59fa3;
+$dangerTextColor: #721c24;
+
 .App {
   text-align: center;
 }
@@ -105,6 +114,16 @@ a {
   text-decoration: none;
 }
 
+@mixin noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
 .grocery-search {
   max-width: 600px;
 
@@ -143,8 +162,49 @@ a {
   box-sizing: border-box;
   padding: 2px;
 
+  @include noselect;
+
   &:active {
     background-color: lighten($primary, 10%);
+  }
+}
+
+.list-btn-container {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.g-btn-large {
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-hide, .btn-clear {
+    width: 50%;
+    border: 1px solid transparent;
+}
+
+.btn-hide {
+  background-color: $warningBackgroundColor;
+  border-color: $warningBorderColor;
+  color: $warningTextColor;
+  border-right: 0;
+
+  &:hover {
+    background-color: darken($warningBackgroundColor, 10%);
+  }
+}
+
+.btn-clear {
+  background-color: $dangerBackgroundColor;
+  border-color: $dangerBorderColor;
+  color: $dangerTextColor;
+
+  &:hover {
+    background-color: darken($dangerBackgroundColor, 10%);
   }
 }
 

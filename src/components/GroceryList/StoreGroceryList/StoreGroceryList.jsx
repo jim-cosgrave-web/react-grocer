@@ -14,6 +14,7 @@ const StoreGroceryList = (props) => {
     const [selectedStore, setSelectedStore] = useState(null);
     const [list, setList] = useState(null);
     const [refreshInterval, setRefreshInterval] = useState(null);
+    const [hideGroceries, setHideGroceries] = useState(false);
     const groceryInputRef = React.createRef();
 
     let { listId } = useParams();
@@ -71,7 +72,7 @@ const StoreGroceryList = (props) => {
     }
 
     const handleInputKeyUp = (event) => {
-        if(event.key == 'Enter') {
+        if (event.key == 'Enter') {
             handleAddGrocery();
         }
     }
@@ -144,7 +145,30 @@ const StoreGroceryList = (props) => {
 
     const handleGroceryClick = (grocery) => {
         const body = { list_id: listId, grocery: grocery };
+        console.log(body);
         axios.put(env.apiPrefix + 'list/grocery', body);
+    }
+
+    const handleHideClick = () => {
+        const hidden = !hideGroceries;
+
+        let clone = { ...list };
+
+        for (let i = 0; i < clone.list.length; i++) {
+            let categories = clone.list[i];
+
+            for (let j = 0; j < categories.groceries.length; j++) {
+                let grocery = categories.groceries[j]
+
+                if (grocery.checked && hidden) {
+                    grocery.hidden = true;
+                } else {
+                    grocery.hidden = false;
+                }
+            }
+        }
+
+        setHideGroceries(hidden);
     }
 
     const handleClearClick = () => {
@@ -203,25 +227,26 @@ const StoreGroceryList = (props) => {
                     <div className="g-btn search-add-btn" onClick={handleAddGrocery}>Add</div>
                 </div>
             </div>
-            <div style={{ marginTop: "16px" }}>
-                <div className="g-btn" onClick={handleClearClick}>Clear Crossed-Off Groceries</div>
+            <div className="list-btn-container" style={{ marginTop: "16px" }}>
+                <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>Hide Crossed-Off Groceries</div>
+                <div className="g-btn g-btn-large btn-clear btn-danger noselect" onClick={handleClearClick}>Clear Crossed-Off Groceries</div>
             </div>
             <div style={{ marginTop: "16px" }}>
                 {list && list.list.map((c, cIndex) => {
                     return (
-                        !c.hidden && <div className="list-category" key={c.name}>
+                        !c.hidden && c.groceries.length > 0 && <div className="list-category" key={c.name}>
                             <div className="list-category-name">
                                 <div>
                                     {c.name}
                                 </div>
                                 <div className="item-count">
-                                    {c.groceries && c.groceries.length} item(s)
+                                    {c.groceries && c.groceries.filter(g => { return !g.hidden }).length} item(s)
                             </div>
                             </div>
 
                             <div className="list">
                                 {c.groceries && c.groceries.map((g, gIndex) => {
-                                    return <Grocery
+                                    return (!g.hidden && <Grocery
                                         grocery={g}
                                         key={g.name + '_' + g.checked}
                                         update={updateGrocery}
@@ -229,15 +254,12 @@ const StoreGroceryList = (props) => {
                                         categories={list.categories}
                                         onCategorySet={handleCategorySet}
                                         onClick={handleGroceryClick}
-                                    ></Grocery>
+                                    ></Grocery>);
                                 })}
                             </div>
                         </div>
                     );
                 })}
-            </div>
-            <div style={{ marginTop: "16px" }}>
-                {/* <GrocerySearch onChange={changeHandler}></GrocerySearch> */}
             </div>
         </div>
     );
