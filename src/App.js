@@ -36,7 +36,7 @@ function App() {
     <Router>
       <div className="h-100">
         {configured && <Menu></Menu>}
-        <div className="h-100" style={{ padding: '.5rem' }}>
+        <div className="h-100 app-body">
           <Switch>
             <Route path="/admin/store/:id">
               <StoreDetails></StoreDetails>

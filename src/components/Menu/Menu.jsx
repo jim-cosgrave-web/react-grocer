@@ -14,7 +14,7 @@ import {
 function Menu() {
     let { id } = useParams();
     const [link, setLink] = useState('');
-    const [shopLink, setShopLink] = useState(null);
+    const [shopLink, setShopLink] = useState('/list');
     const [render, setRender] = useState(localStorage.getItem("token") ? true : false);
     const history = useHistory();
 

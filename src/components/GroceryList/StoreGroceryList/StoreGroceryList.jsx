@@ -33,7 +33,7 @@ const StoreGroceryList = (props) => {
 
             const ddl = [];
             storeData.forEach(s => {
-                ddl.push({ name: s.name, value: s._id, storeId: s.storeId });
+                ddl.push({ name: s.name + ' (' + s.city + ')', value: s._id, storeId: s.storeId });
             });
 
             const tempSelectedStore = ddl[0];
@@ -182,7 +182,7 @@ const StoreGroceryList = (props) => {
 
     let content = (
         <div style={{ maxWidth: "600px" }}>
-            <div>Shopping at {selectedStore && selectedStore.name}</div>
+            <div className="store-title">Shopping at {selectedStore && selectedStore.name}</div>
             {storeDropDown && storeDropDown.length > 1 && <div>
                 <select style={{ width: "100%" }}>
                     {storeDropDown && storeDropDown.map((s, index) => {

@@ -178,6 +178,7 @@ Menu
 header {
   width: 100%;
   background: $primary;
+  position: fixed;
 
   ul {
     padding: 0;
@@ -211,6 +212,11 @@ header {
       }
     }
   }
+}
+
+.app-body {
+  padding: .5rem;
+  padding-top: 40px; 
 }
 
 /********************************************
@@ -301,6 +307,11 @@ Store
   border-bottom: 1px solid lighten($primary, 50%);
   background-color: $secondary;
   color: $primary;
+  font-weight: bold;
+}
+
+.store-title {
+  font-size: 20px;
   font-weight: bold;
 }
 
