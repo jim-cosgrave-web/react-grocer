@@ -228,8 +228,8 @@ const StoreGroceryList = (props) => {
                 </div>
             </div>
             <div className="list-btn-container" style={{ marginTop: "16px" }}>
-                <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>Hide Crossed-Off Groceries</div>
-                <div className="g-btn g-btn-large btn-clear btn-danger noselect" onClick={handleClearClick}>Clear Crossed-Off Groceries</div>
+                <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>Hide Groceries</div>
+                <div className="g-btn g-btn-large btn-clear btn-danger noselect" onClick={handleClearClick}>Clear Groceries</div>
             </div>
             <div style={{ marginTop: "16px" }}>
                 {list && list.list.map((c, cIndex) => {
