@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GrocerySearch from '../GrocerySearch/GrocerySearch';
 import Grocery from '../Grocery/Grocery';
+import { useInterval } from '../../../hooks/useInterval';
 import axios from 'axios';
 import env from '../../Shared/Environment';
 
@@ -14,6 +15,7 @@ const StoreGroceryList = (props) => {
     const [selectedStore, setSelectedStore] = useState(null);
     const [list, setList] = useState(null);
     const [refreshInterval, setRefreshInterval] = useState(null);
+    const [refreshBlock, setRefreshBlock] = useState(false);
     const [hideGroceries, setHideGroceries] = useState(false);
     const groceryInputRef = React.createRef();
 
@@ -21,10 +23,6 @@ const StoreGroceryList = (props) => {
 
     useEffect(() => {
         getStores();
-
-        return function () {
-            clearTimeout(refreshInterval);
-        }
     }, []);
 
     const getStores = () => {
@@ -43,13 +41,18 @@ const StoreGroceryList = (props) => {
             setSelectedStore(tempSelectedStore);
 
             getStoreGroceryList(tempSelectedStore);
-
-            const interval = setInterval(() => {
-                getStoreGroceryList();
-
-            }, 10000);
         });
     }
+
+    useInterval(() => {
+        if(!refreshBlock) {
+            console.log('Refreshing data');
+            getStoreGroceryList();
+        } else {
+            console.log('Refresh blocked due to interaction with grocery');
+            setRefreshBlock(false);
+        }
+    }, 10000);
 
     const getStoreGroceryList = (store) => {
         if (selectedStore) {
@@ -137,13 +140,13 @@ const StoreGroceryList = (props) => {
         const body = { category: categoryName, groceryName: groceryToMove.name };
 
         axios.post(env.apiPrefix + 'stores/' + selectedStore.storeId + '/grocery', body).then((res) => {
-            console.log(res);
+            //console.log(res);
         });
     }
 
     const handleGroceryClick = (grocery) => {
         const body = { list_id: listId, grocery: grocery };
-        console.log(body);
+        //console.log(body);
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
 
@@ -202,6 +205,10 @@ const StoreGroceryList = (props) => {
         }
     }
 
+    const handleGroceryInteraction = () => {
+        setRefreshBlock(true);
+    }
+
     let content = (
         <div style={{ maxWidth: "600px" }}>
             <div className="store-title">Shopping at {selectedStore && selectedStore.name}</div>
@@ -252,6 +259,7 @@ const StoreGroceryList = (props) => {
                                         categories={list.categories}
                                         onCategorySet={handleCategorySet}
                                         onClick={handleGroceryClick}
+                                        onInteraction={handleGroceryInteraction}
                                     ></Grocery>);
                                 })}
                             </div>

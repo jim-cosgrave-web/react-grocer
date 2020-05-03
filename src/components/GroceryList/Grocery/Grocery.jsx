@@ -6,7 +6,7 @@ const Grocery = (props) => {
     let updateTimeout = null;
 
     const handleKeyPress = () => {
-        props.onKeyPress(); 
+        raiseOnInteraction();
 
         if (updateTimeout) {
             clearTimeout(updateTimeout);
@@ -21,7 +21,14 @@ const Grocery = (props) => {
         }, 500);
     }
 
+    const raiseOnInteraction = () => {
+        if (typeof props.onInteraction == 'function') { 
+            props.onInteraction();
+        }
+    }
+
     const handleCategoryChange = (event) => {
+        raiseOnInteraction();
         // this.setState({value: event.target.value});
         //console.log(event.target.value, grocery);
         props.onCategorySet(event.target.value, grocery);
@@ -32,6 +39,7 @@ const Grocery = (props) => {
             if (typeof (props.onClick) == 'function') {
                 grocery.checked = !grocery.checked;
                 props.onClick(grocery);
+                raiseOnInteraction();
 
                 let clone = { ...grocery };
                 setGrocery(clone);

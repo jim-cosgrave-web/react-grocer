@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GrocerySearch from './GrocerySearch/GrocerySearch';
 import Grocery from './Grocery/Grocery';
+import { useInterval } from '../../hooks/useInterval';
 
 import axios from 'axios';
 import env from '../Shared/Environment';
@@ -19,15 +20,18 @@ const GroceryList = (props) => {
 
     useEffect(() => {
         getListData();
-
-        const interval = setInterval(() => {
-            getListData();
-        }, 10000);
-
-        return function () {
-            clearTimeout(interval);
-        }
     }, []);
+
+    useInterval(() => {
+        if(!refreshBlock) {
+            console.log('Refreshing data');
+            getListData();
+        } else {
+            console.log('Refresh blocked due to interaction with grocery');
+            setRefreshBlock(false);
+        }
+
+    }, 10000);
 
     const getListData = () => {
         axios.get(env.apiPrefix + 'list')
@@ -112,6 +116,8 @@ const GroceryList = (props) => {
         let indices = [];
         let clone = { ...list };
 
+        console.log(clone);
+
         for (let i = 0; i < clone.groceries.length; i++) {
             if (clone.groceries[i].checked) {
                 indices.push(i);
@@ -130,7 +136,7 @@ const GroceryList = (props) => {
         }
     }
 
-    const handleGroceryKeyPress = () => {
+    const handleGroceryInteraction = () => {
         setRefreshBlock(true);
     }
 
@@ -159,7 +165,7 @@ const GroceryList = (props) => {
             </div>
             <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {
-                    return !g.hidden && <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery} onKeyPress={handleGroceryKeyPress}></Grocery>
+                    return !g.hidden && <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery} onInteraction={handleGroceryInteraction}></Grocery>
                 })}
             </div>
         </div>
