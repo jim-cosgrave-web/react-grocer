@@ -14,11 +14,10 @@ const GroceryList = (props) => {
     const [list, setList] = useState(null);
     const [shopUrl, setShopUrl] = useState('');
     const [hideGroceries, setHideGroceries] = useState(false);
+    const [refreshBlock, setRefreshBlock] = useState(false);
     const groceryInputRef = React.createRef();
 
     useEffect(() => {
-        //console.log(process.env);
-
         getListData();
 
         const interval = setInterval(() => {
@@ -69,7 +68,6 @@ const GroceryList = (props) => {
         }
 
         groceryInputRef.current.value = '';
-        groceryInputRef.current.focus();
     }
 
     const compareNames = (a, b) => {
@@ -84,7 +82,6 @@ const GroceryList = (props) => {
 
     const updateGrocery = (grocery) => {
         const body = { list_id: list._id, grocery: grocery };
-
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
 
@@ -133,6 +130,10 @@ const GroceryList = (props) => {
         }
     }
 
+    const handleGroceryKeyPress = () => {
+        setRefreshBlock(true);
+    }
+
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
             <div style={{ marginTop: "16px" }}>
@@ -154,11 +155,11 @@ const GroceryList = (props) => {
                 </div>
                 <div className="item-count">
                     {list && list.groceries.length} items
-                </div>
+                </div> 
             </div>
             <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {
-                    return !g.hidden && <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery}></Grocery>
+                    return !g.hidden && <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery} onKeyPress={handleGroceryKeyPress}></Grocery>
                 })}
             </div>
         </div>

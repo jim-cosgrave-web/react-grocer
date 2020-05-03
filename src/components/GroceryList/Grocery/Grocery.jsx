@@ -6,14 +6,18 @@ const Grocery = (props) => {
     let updateTimeout = null;
 
     const handleKeyPress = () => {
+        props.onKeyPress(); 
+
         if (updateTimeout) {
             clearTimeout(updateTimeout);
         }
 
         updateTimeout = setTimeout(() => {
-            grocery.note = inputRef.current.value;
-            setGrocery(grocery);
-            props.update(grocery);
+            if (inputRef && inputRef.current) {
+                grocery.note = inputRef.current.value;
+                setGrocery(grocery);
+                props.update(grocery);
+            }
         }, 500);
     }
 
@@ -24,19 +28,19 @@ const Grocery = (props) => {
     }
 
     const handleGroceryClick = (event) => {
-        if(event.target.className.indexOf('prevent-click') === -1) {
-            if(typeof(props.onClick) == 'function') {
+        if (event.target.className.indexOf('prevent-click') === -1) {
+            if (typeof (props.onClick) == 'function') {
                 grocery.checked = !grocery.checked;
                 props.onClick(grocery);
 
-                let clone = {...grocery};
+                let clone = { ...grocery };
                 setGrocery(clone);
             }
         }
     }
 
-    let content = ( 
-        <div className={"list-item" + (grocery.checked ? ' checked': '')} onClick={handleGroceryClick}>
+    let content = (
+        <div className={"list-item" + (grocery.checked ? ' checked' : '')} onClick={handleGroceryClick}>
             <div className="list-item-name">{grocery.name}</div>
             {props.uncategorized && (
                 <div>
