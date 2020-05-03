@@ -19,15 +19,20 @@ function Menu() {
     const history = useHistory();
 
     useEffect(() => {
-        const path = window.location.pathname.replace('/', '');
         getListData();
+
+        let path = window.location.pathname.replace('/', '');
+
+        if(path.indexOf('/') != -1) {
+            path = path.substring(0, path.indexOf('/'));
+        }
 
         switch (path) {
             case '':
-            case 'shop':
+            case 'list':
                 setLink('list');
                 break;
-            case 'store':
+            case 'shop':
                 setLink('store');
                 break;
             case 'store':

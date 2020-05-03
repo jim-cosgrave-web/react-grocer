@@ -57,8 +57,6 @@ const StoreGroceryList = (props) => {
         }
 
         if (store) {
-            console.log('getting data');
-
             axios.get(env.apiPrefix + 'list/' + listId + '/' + store.value).then(res => {
                 setList(res.data);
             });

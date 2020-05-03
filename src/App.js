@@ -17,19 +17,15 @@ import {
 function App() {
   const [configured, setConfigured] = useState(false);
 
+  axios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('token');
+    config.headers.Authorization = `Bearer ${token}`;
+
+    return config;
+  });
+
   useEffect(() => {
-
-    axios.interceptors.request.use(function (config) {
-      const token = localStorage.getItem('token');
-      config.headers.Authorization = `Bearer ${token}`;     
-
-      return config;
-    });
-
-    setTimeout(() => {
-      setConfigured(true);
-    }, 1000);
-    
+    setConfigured(true);
   }, []);
 
   return (
