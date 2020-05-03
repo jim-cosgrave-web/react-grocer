@@ -28,6 +28,7 @@ const Login = (props) => {
             }
 
             localStorage.setItem('token', response.token);
+            localStorage.setItem('user_id', response.user_id);
             history.push('/list');
         });
     }
