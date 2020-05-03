@@ -16,6 +16,7 @@ const GroceryList = (props) => {
     const [shopUrl, setShopUrl] = useState('');
     const [hideGroceries, setHideGroceries] = useState(false);
     const [refreshBlock, setRefreshBlock] = useState(false);
+    const [lastRefreshTime, setLastRefreshTime] = useState(new Date());
     const groceryInputRef = React.createRef();
 
     useEffect(() => {
@@ -25,6 +26,7 @@ const GroceryList = (props) => {
     useInterval(() => {
         if (!refreshBlock) {
             console.log('Refreshing data');
+            setLastRefreshTime(new Date());
             getListData();
         } else {
             console.log('Refresh blocked due to interaction with grocery');
@@ -126,8 +128,6 @@ const GroceryList = (props) => {
         let indices = [];
         let clone = { ...list };
 
-        console.log(clone);
-
         for (let i = 0; i < clone.groceries.length; i++) {
             if (clone.groceries[i].checked) {
                 indices.push(i);
@@ -150,6 +150,17 @@ const GroceryList = (props) => {
         setRefreshBlock(true);
     }
 
+    const formatDateTime = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+    }
+
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
             <div style={{ marginTop: "16px" }}>
@@ -164,6 +175,9 @@ const GroceryList = (props) => {
             <div className="list-btn-container">
                 <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>{hideGroceries ? 'Show' : 'Hide'} Groceries</div>
                 <div className="g-btn g-btn-large btn-clear btn-danger noselect" onClick={handleClearClick}>Clear Groceries</div>
+            </div>
+            <div style={{ marginTop: "16px", textAlign: "right" }}>
+                Last refresh at {formatDateTime(lastRefreshTime)}
             </div>
             <div style={{ marginTop: "16px" }} className="list-category-name">
                 <div>
