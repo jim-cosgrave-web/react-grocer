@@ -6,6 +6,7 @@ import GroceryList from './components/GroceryList/GroceryList';
 import StoreGroceryList from './components/GroceryList/StoreGroceryList/StoreGroceryList';
 import Admin from './components/Admin/Admin';
 import StoreDetails from './components/Store/StoreDetails/StoreDetails';
+import Recipes from './components/Recipes/Recipes';
 import axios from 'axios';
 
 import {
@@ -45,6 +46,9 @@ function App() {
             </Route>
             <Route path="/list">
               {configured && <GroceryList></GroceryList>}
+            </Route>
+            <Route path="/recipes">
+              <Recipes></Recipes>
             </Route>
             <Route path="/">
               <Login></Login>
