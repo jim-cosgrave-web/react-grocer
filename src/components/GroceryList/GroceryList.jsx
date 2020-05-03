@@ -23,7 +23,7 @@ const GroceryList = (props) => {
     }, []);
 
     useInterval(() => {
-        if(!refreshBlock) {
+        if (!refreshBlock) {
             console.log('Refreshing data');
             getListData();
         } else {
@@ -31,7 +31,7 @@ const GroceryList = (props) => {
             setRefreshBlock(false);
         }
 
-    }, 10000);
+    }, 30000);
 
     const getListData = () => {
         axios.get(env.apiPrefix + 'list')
@@ -54,6 +54,8 @@ const GroceryList = (props) => {
     }
 
     const handleAddGrocery = () => {
+        handleGroceryInteraction();
+
         let value = groceryInputRef.current.value;
 
         const body = {
@@ -67,7 +69,9 @@ const GroceryList = (props) => {
 
         if (!grocery) {
             axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
-                setList(res.data);
+                if (!res.data.exists) {
+                    setList(res.data);
+                }
             });
         }
 
@@ -85,6 +89,8 @@ const GroceryList = (props) => {
     }
 
     const updateGrocery = (grocery) => {
+        handleGroceryInteraction();
+
         const body = { list_id: list._id, grocery: grocery };
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
@@ -95,6 +101,8 @@ const GroceryList = (props) => {
     }
 
     const handleHideClick = () => {
+        handleGroceryInteraction();
+
         const hidden = !hideGroceries;
 
         let clone = { ...list };
@@ -113,6 +121,8 @@ const GroceryList = (props) => {
     }
 
     const handleClearClick = () => {
+        handleGroceryInteraction();
+
         let indices = [];
         let clone = { ...list };
 
@@ -161,7 +171,7 @@ const GroceryList = (props) => {
                 </div>
                 <div className="item-count">
                     {list && list.groceries.length} items
-                </div> 
+                </div>
             </div>
             <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {

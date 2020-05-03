@@ -52,7 +52,7 @@ const StoreGroceryList = (props) => {
             console.log('Refresh blocked due to interaction with grocery');
             setRefreshBlock(false);
         }
-    }, 10000);
+    }, 30000);
 
     const getStoreGroceryList = (store) => {
         if (selectedStore) {
@@ -67,8 +67,9 @@ const StoreGroceryList = (props) => {
     }
 
     const updateGrocery = (grocery) => {
-        const body = { list_id: listId, grocery: grocery };
+        handleGroceryInteraction();
 
+        const body = { list_id: listId, grocery: grocery };
         axios.put(env.apiPrefix + 'list/grocery', body);
     }
 
@@ -100,6 +101,8 @@ const StoreGroceryList = (props) => {
         }
 
         if (!grocery) {
+            handleGroceryInteraction();
+
             axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
                 getStoreGroceryList(selectedStore);
             });
@@ -173,6 +176,7 @@ const StoreGroceryList = (props) => {
     }
 
     const handleClearClick = () => {
+        handleGroceryInteraction();
 
         let clone = { ...list };
         let updateMade = false;
