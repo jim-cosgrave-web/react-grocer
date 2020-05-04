@@ -33,7 +33,7 @@ const GroceryList = (props) => {
             setRefreshBlock(false);
         }
 
-    }, 30000);
+    }, 300000);
 
     const getListData = () => {
         axios.get(env.apiPrefix + 'list')
@@ -73,6 +73,7 @@ const GroceryList = (props) => {
             axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
                 if (!res.data.exists) {
                     setList(res.data);
+                    console.log('Add', res.data);
                 }
             });
         }
@@ -100,6 +101,11 @@ const GroceryList = (props) => {
     const handleGroceryClick = (grocery) => {
         const body = { list_id: list._id, grocery: grocery };
         axios.put(env.apiPrefix + 'list/grocery', body);
+
+        let clone = { ...list };
+        const index = clone.groceries.map(e => e.name).indexOf(grocery.name);
+        clone.groceries[index] = grocery;
+        setList(clone);
     }
 
     const handleHideClick = () => {
@@ -189,7 +195,13 @@ const GroceryList = (props) => {
             </div>
             <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {
-                    return !g.hidden && <Grocery onClick={handleGroceryClick} grocery={g} key={g.name + '_' + g.checked} update={updateGrocery} onInteraction={handleGroceryInteraction}></Grocery>
+                    return !g.hidden && 
+                        <Grocery onClick={handleGroceryClick} 
+                                 grocery={g} 
+                                 key={g.name + '_' + g.checked} 
+                                 update={updateGrocery} 
+                                 onInteraction={handleGroceryInteraction}>
+                        </Grocery>
                 })}
             </div>
         </div>

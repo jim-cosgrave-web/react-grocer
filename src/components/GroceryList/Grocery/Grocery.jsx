@@ -8,7 +8,7 @@ const Grocery = (props) => {
     const handleKeyPress = () => {
         raiseOnInteraction();
 
-        if (updateTimeout) {
+        if (updateTimeout) { 
             clearTimeout(updateTimeout);
         }
 
