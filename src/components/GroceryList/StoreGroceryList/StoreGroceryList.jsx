@@ -110,7 +110,6 @@ const StoreGroceryList = (props) => {
         }
 
         groceryInputRef.current.value = '';
-        groceryInputRef.current.focus();
     }
 
     const handleCategorySet = (categoryName, grocery) => {
