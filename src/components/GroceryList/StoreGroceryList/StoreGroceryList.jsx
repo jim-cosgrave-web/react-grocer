@@ -152,6 +152,19 @@ const StoreGroceryList = (props) => {
         const body = { list_id: listId, grocery: grocery };
         //console.log(body);
         axios.put(env.apiPrefix + 'list/grocery', body);
+
+        let clone = { ...list };
+
+        for (let i = 0; i < clone.list.length; i++) {
+            let category = clone.list[i];
+            const index = category.groceries.map(e => e.name).indexOf(grocery.name);
+
+            if(index != -1) {
+                category.groceries[index] = grocery;
+                setList(clone);
+                break;
+            }
+        }
     }
 
     const handleHideClick = () => {

@@ -33,7 +33,7 @@ const GroceryList = (props) => {
             setRefreshBlock(false);
         }
 
-    }, 300000);
+    }, 30000);
 
     const getListData = () => {
         axios.get(env.apiPrefix + 'list')
@@ -73,7 +73,6 @@ const GroceryList = (props) => {
             axios.post(env.apiPrefix + 'list/grocery', body).then(res => {
                 if (!res.data.exists) {
                     setList(res.data);
-                    console.log('Add', res.data);
                 }
             });
         }
@@ -169,6 +168,7 @@ const GroceryList = (props) => {
 
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
+            <div className="store-title">Grocery List</div>
             <div style={{ marginTop: "16px" }}>
                 {/* <GrocerySearch onChange={handleAddGrocery}></GrocerySearch> */}
                 <div className="grocery-search">
