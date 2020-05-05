@@ -55,10 +55,10 @@ const GroceryList = (props) => {
         }
     }
 
-    const handleAddGrocery = () => {
+    const handleAddGrocery = (value) => {
         handleGroceryInteraction();
 
-        let value = groceryInputRef.current.value;
+        //let value = groceryInputRef.current.value;
 
         const body = {
             "list_id": list._id,
@@ -77,7 +77,7 @@ const GroceryList = (props) => {
             });
         }
 
-        groceryInputRef.current.value = '';
+        //groceryInputRef.current.value = '';
     }
 
     const compareNames = (a, b) => {
@@ -166,17 +166,25 @@ const GroceryList = (props) => {
         return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
     }
 
+    const handleGrocerySearchAdd = (grocery) => {
+        console.log(grocery);
+    }
+
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
             <div className="store-title">Grocery List</div>
             <div style={{ marginTop: "16px" }}>
-                {/* <GrocerySearch onChange={handleAddGrocery}></GrocerySearch> */}
-                <div className="grocery-search">
+                <div>
+                    <GrocerySearch
+                      onAdd={handleAddGrocery}
+                    ></GrocerySearch>
+                </div>
+                {/* <div className="grocery-search">
                     <div>
                         <input type="text" ref={groceryInputRef} onKeyUp={handleInputKeyUp}></input>
                     </div>
                     <div className="g-btn search-add-btn" onClick={handleAddGrocery}>Add</div>
-                </div>
+                </div> */}
             </div>
             <div className="list-btn-container">
                 <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>{hideGroceries ? 'Show' : 'Hide'} Groceries</div>

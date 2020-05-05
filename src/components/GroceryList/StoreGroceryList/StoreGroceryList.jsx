@@ -45,7 +45,7 @@ const StoreGroceryList = (props) => {
     }
 
     useInterval(() => {
-        if(!refreshBlock) {
+        if (!refreshBlock) {
             console.log('Refreshing data');
             setLastRefreshTime(new Date());
             getStoreGroceryList();
@@ -80,8 +80,8 @@ const StoreGroceryList = (props) => {
         }
     }
 
-    const handleAddGrocery = () => {
-        let value = groceryInputRef.current.value;
+    const handleAddGrocery = (value) => {
+        //let value = groceryInputRef.current.value;
 
         const body = {
             "list_id": listId,
@@ -109,7 +109,7 @@ const StoreGroceryList = (props) => {
             });
         }
 
-        groceryInputRef.current.value = '';
+        //groceryInputRef.current.value = '';
     }
 
     const handleCategorySet = (categoryName, grocery) => {
@@ -158,7 +158,7 @@ const StoreGroceryList = (props) => {
             let category = clone.list[i];
             const index = category.groceries.map(e => e.name).indexOf(grocery.name);
 
-            if(index != -1) {
+            if (index != -1) {
                 category.groceries[index] = grocery;
                 setList(clone);
                 break;
@@ -252,13 +252,17 @@ const StoreGroceryList = (props) => {
                 </select>
             </div>}
             <div style={{ marginTop: "16px" }}>
-                {/* <GrocerySearch onChange={handleAddGrocery}></GrocerySearch> */}
-                <div className="grocery-search">
+                <div>
+                    <GrocerySearch
+                        onAdd={handleAddGrocery}
+                    ></GrocerySearch>
+                </div>
+                {/* <div className="grocery-search">
                     <div>
                         <input type="text" ref={groceryInputRef} onKeyUp={handleInputKeyUp}></input>
                     </div>
                     <div className="g-btn search-add-btn" onClick={handleAddGrocery}>Add</div>
-                </div>
+                </div> */}
             </div>
             <div className="list-btn-container">
                 <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>{hideGroceries ? 'Show' : 'Hide'} Groceries</div>
