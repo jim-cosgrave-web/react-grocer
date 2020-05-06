@@ -24,6 +24,9 @@ const Recipes = (props) => {
                 <div className="g-btn g-btn-large btn-hide btn-warning noselect">List</div>
                 <div className="g-btn g-btn-large btn-clear btn-danger noselect">Categories</div>
             </div> */}
+            
+                <Link to="/recipes/edit/new">Add New Recipe</Link>
+            
             <div className="recipe-list">
                 {recipes && recipes.map((r, index) => {
                     return (

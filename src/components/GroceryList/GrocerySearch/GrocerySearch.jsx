@@ -30,12 +30,15 @@ const GrocerySearch = (props) => {
 
     const handleAddClick = () => {
         const value = ref.current.getInput().value;
-        props.onAdd(value);
-        ref.current.clear();
+
+        if (value.trim() != '') {
+            props.onAdd(value);
+            ref.current.clear();
+        }
     }
 
     const handleKeyDown = (event) => {
-        if(event.key.toLowerCase() === 'enter') {
+        if (event.key.toLowerCase() === 'enter') {
             handleAddClick();
         }
     }

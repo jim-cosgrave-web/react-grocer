@@ -10,6 +10,7 @@ import Admin from './components/Admin/Admin';
 import StoreDetails from './components/Store/StoreDetails/StoreDetails';
 import Recipes from './components/Recipes/Recipes';
 import Recipe from './components/Recipes/Recipe';
+import AddEditRecipe from './components/Recipes/AddEditRecipe';
 import axios from 'axios';
 
 import {
@@ -49,6 +50,9 @@ function App() {
             </Route>
             <Route path="/list">
               {configured && <GroceryList></GroceryList>}
+            </Route>
+            <Route path="/recipes/edit/:recipeId">
+              <AddEditRecipe></AddEditRecipe>
             </Route>
             <Route path="/recipes/:recipeId">
               <Recipe></Recipe>
