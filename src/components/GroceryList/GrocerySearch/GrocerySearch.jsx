@@ -49,6 +49,8 @@ const GrocerySearch = (props) => {
                 onKeyDown={(event) => {
                     handleKeyDown(event);
                 }}
+                onChange={handleAddClick}
+                maxHeight="200px"
             />
             <div className="g-btn search-add-btn" onClick={handleAddClick}>
                 Add
