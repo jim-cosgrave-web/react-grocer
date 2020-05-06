@@ -507,6 +507,27 @@ END List
 Recipes
 ******************************************************************/
 
+.recipe-list {
+  .recipe-list-item {
+    padding: 8px;
+    cursor: pointer;
+
+    &:nth-child(odd) {
+      background-color: $secondary;
+      color: black;
+    }
+  }
+}
+
+.recipe-container {
+  .recipe-section-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    border-bottom: 1px solid #000;
+  }
+}
+
 .recipe-category-list {
   display: flex;
   flex-wrap: wrap;
