@@ -22,9 +22,13 @@ $dangerTextColor: #721c24;
   pointer-events: none;
 }
 
-input {
+input, button {
   border-radius: 0;
   -webkit-border-radius:0px;
+}
+
+input {
+  width: 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -511,12 +515,13 @@ Recipes
   .recipe-list-item {
     padding: 8px;
     cursor: pointer;
-
-    &:nth-child(odd) {
-      background-color: $secondary;
-      color: black;
-    }
   }
+}
+
+.recipe-list a  .recipe-list-item {
+  border-color: $secondary;
+  border-bottom: 2px solid $secondary;
+  color: black;
 }
 
 .recipe-container {
@@ -542,12 +547,27 @@ Recipes
 }
 
 .edit-recipe-container {
-  input, button {
+  input {
     width: 100%;
   }
 
-  h5, button {
-    margin-top: 8px;
+  h5 {
+    margin-top: 20px;
+  }
+
+  .save {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .edit-list-container >div:nth-child(odd) {
+    background-color: #eee;
+  }
+
+  .edit-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import env from '../Shared/Environment';
 import GrocerySearch from '../GroceryList/GrocerySearch/GrocerySearch';
+import MyTypeahead from '../Shared/Typeahead/Typeahead';
 
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 const AddEditRecipe = (props) => {
     const { recipeId } = useParams();
@@ -12,6 +13,8 @@ const AddEditRecipe = (props) => {
     const nameInputRef = React.createRef();
     const linkInputRef = React.createRef();
 
+    const history = useHistory();
+
     useEffect(() => {
         if (recipeId != 'new') {
             const user_id = localStorage.getItem('user_id');
@@ -19,21 +22,50 @@ const AddEditRecipe = (props) => {
             axios.get(env.apiPrefix + 'recipes/' + user_id + '/' + recipeId).then(res => {
                 setRecipe(res.data);
             });
-        } else {
-            console.log('new recipe');
         }
     }, []);
 
     const save = () => {
         let clone = { ...recipe };
         clone.name = nameInputRef.current.value;
-        console.log(clone);
+        clone.link = linkInputRef.current.value;
+
+        const user_id = localStorage.getItem('user_id');
+        clone.user_id = user_id;
+
+        if (recipeId == 'new') {
+            axios.post(env.apiPrefix + 'recipes', clone).then(res => {
+                history.push('/recipes');
+            });
+        } else {
+            console.log('update instead of post', clone);
+        }
     }
 
     const handleAddIngredient = (ingredient) => {
         let clone = { ...recipe };
         clone.ingredients.push({ name: ingredient });
         setRecipe(clone);
+    }
+
+    const handleAddCategory = (category) => {
+        let clone = { ...recipe };
+        let exists = clone.categories.find(c => c == category);
+
+        if (!exists) {
+            clone.categories.push(category);
+            setRecipe(clone);
+
+            axios.post(env.apiPrefix + 'recipes/category', { name: category });
+        }
+    }
+
+    const removeIngredient = (ingredient) => {
+        console.log(ingredient);
+    }
+
+    const removeCategory = (category) => {
+        console.log(category);
     }
 
     let content = (
@@ -51,20 +83,50 @@ const AddEditRecipe = (props) => {
                 <div>
                     <h5>Ingredients</h5>
                     <div>
-                        <GrocerySearch onAdd={handleAddIngredient}></GrocerySearch>
+                        <div className="edit-list-container" style={{ marginTop: "10px" }}>
+                            {recipe.ingredients && recipe.ingredients.map((i, index) => {
+                                return (
+                                    <div key={i.name} className="edit-list">
+                                        <div>
+                                            {i.name}
+                                        </div>
+                                        <div>
+                                            <button onClick={() => removeIngredient(i)}>Remove</button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
-                    <div>
-                        <ul style={{ marginTop: "10px" }}>
-                        {recipe.ingredients && recipe.ingredients.map((i, index) => {
-                            return (
-                                <li key={i.name}>{i.name}</li>
-                            );
-                        })}
-                        </ul>
+                    <div style={{ marginTop: "10px" }}>
+                        <MyTypeahead type="groceries" placeholder="Add an ingredient" onAdd={handleAddIngredient}></MyTypeahead>
                     </div>
                 </div>
                 <div>
-                    <button onClick={save}>Save</button>
+                    <h5>Categories</h5>
+
+                    <div>
+                        <div className="edit-list-container" style={{ marginTop: "10px" }}>
+                            {recipe.categories && recipe.categories.map((i, index) => {
+                                return (
+                                    <div key={i} className="edit-list">
+                                        <div>
+                                            {i}
+                                        </div>
+                                        <div>
+                                            <button onClick={() => removeCategory(i)}>Remove</button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div style={{ marginTop: "10px" }}>
+                        <MyTypeahead type="recipe-category" placeholder="Add a category" onAdd={handleAddCategory}></MyTypeahead>
+                    </div>
+                </div>
+                <div>
+                    <button className="save" onClick={save}>Save</button>
                 </div>
             </div>
         </div>

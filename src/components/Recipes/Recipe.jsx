@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import env from '../Shared/Environment';
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Recipe = (props) => {
     const { recipeId } = useParams();
@@ -21,8 +21,11 @@ const Recipe = (props) => {
             {recipe && <div className="recipe-container">
                 <h2>{recipe.name}</h2>
                 <div>
-                    <a target="_blank" href={recipe.link}>Recipe Link</a>
+                    <Link to={"/recipes/edit/" + recipeId}>Edit Recipe</Link>
                 </div>
+                {recipe.link && <div>
+                    <a target="_blank" href={recipe.link}>Recipe Link</a>
+                </div>}
                 {recipe.ingredients && recipe.ingredients.length > 0 && <div>
                     <div className="recipe-section-title">Ingredients</div>
                     {recipe.ingredients.map((i, index) => {
