@@ -5,6 +5,7 @@ import GrocerySearch from '../GroceryList/GrocerySearch/GrocerySearch';
 import MyTypeahead from '../Shared/Typeahead/Typeahead';
 
 import { useParams, useHistory } from "react-router-dom";
+import { findWithAttr } from '../../utils/jsUtilities';
 
 const AddEditRecipe = (props) => {
     const { recipeId } = useParams();
@@ -38,7 +39,9 @@ const AddEditRecipe = (props) => {
                 history.push('/recipes');
             });
         } else {
-            console.log('update instead of post', clone);
+            axios.put(env.apiPrefix + 'recipes', clone).then(res => {
+                history.push('/recipes');
+            });
         }
     }
 
@@ -61,11 +64,17 @@ const AddEditRecipe = (props) => {
     }
 
     const removeIngredient = (ingredient) => {
-        console.log(ingredient);
+        let clone = { ...recipe };
+        let index = findWithAttr(clone.ingredients, 'name', ingredient.name);
+        clone.ingredients.splice(index, 1);
+        setRecipe(clone);
     }
 
     const removeCategory = (category) => {
-        console.log(category);
+        let clone = { ...recipe };
+        let index = clone.categories.indexOf(category);
+        clone.categories.splice(index, 1);
+        setRecipe(clone);
     }
 
     let content = (

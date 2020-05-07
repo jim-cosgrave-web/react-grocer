@@ -4,6 +4,9 @@ import env from '../Shared/Environment';
 
 import { Link, useParams } from "react-router-dom";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+
 const Recipe = (props) => {
     const { recipeId } = useParams();
     const [recipe, setRecipe] = useState(null);
@@ -19,9 +22,11 @@ const Recipe = (props) => {
     let content = (
         <div style={{ maxWidth: "600px" }}>
             {recipe && <div className="recipe-container">
-                <h2>{recipe.name}</h2>
-                <div>
-                    <Link to={"/recipes/edit/" + recipeId}>Edit Recipe</Link>
+                <div className="flex">
+                    <h2>{recipe.name}</h2>
+                    <div>
+                        <Link to={"/recipes/edit/" + recipeId}><FontAwesomeIcon icon={faEdit} /></Link>
+                    </div>
                 </div>
                 {recipe.link && <div>
                     <a target="_blank" href={recipe.link}>Recipe Link</a>
