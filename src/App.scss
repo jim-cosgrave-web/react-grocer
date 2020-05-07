@@ -26,8 +26,8 @@ input, button {
   border-radius: 0;
   -webkit-border-radius:0px;
 }
-
-input {
+ 
+input[type="text"] {
   width: 100%;
 }
 
@@ -84,6 +84,10 @@ html,body{
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 @keyframes App-logo-spin {
@@ -553,7 +557,7 @@ Recipes
 }
 
 .edit-recipe-container {
-  input {
+  input[type="text"] {
     width: 100%;
   }
 
