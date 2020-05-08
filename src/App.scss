@@ -13,8 +13,18 @@ $dangerBackgroundColor: #f8d7da;
 $dangerBorderColor: #c59fa3;
 $dangerTextColor: #721c24;
 
+html,body{
+  height:100%;
+  padding:0;
+  margin:0;
+}
+
+*{
+  box-sizing:border-box;
+}
+
 body {
-  padding-bottom: 100px;
+  padding-bottom: 100px !important;
 }
 
 .App {
@@ -47,14 +57,7 @@ input[type="text"] {
   }
 }
 
-html,body{
-  height:100%;
-  padding:0;
-  margin:0;
-}
-*{
-  box-sizing:border-box;
-}
+
 
 .container{
   
