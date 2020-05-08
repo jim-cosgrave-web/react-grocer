@@ -483,10 +483,20 @@ List
       color: lighten(black, 30%);
 
       input {
+        width: 100%;
         max-width: 100%;
       }
     }
     
+    .list-item-category {
+      margin-top: 6px;
+      width: 100%;
+
+      select {
+        width: 100%;
+        padding: 3px;
+      }
+    }
   }
 
   .list-item:nth-child(odd) {
