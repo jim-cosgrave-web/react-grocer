@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import env from '../Shared/Environment';
-import GrocerySearch from '../GroceryList/GrocerySearch/GrocerySearch';
 import MyTypeahead from '../Shared/Typeahead/Typeahead';
 
 import { useParams, useHistory } from "react-router-dom";
