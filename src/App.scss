@@ -26,6 +26,12 @@ input, button {
   border-radius: 0;
   -webkit-border-radius:0px;
 }
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
  
 input[type="text"] {
   width: 100%;
@@ -261,6 +267,7 @@ header {
   width: 100%;
   background: $primary;
   position: fixed;
+  z-index: 100000;
 
   ul {
     padding: 0;
@@ -299,6 +306,7 @@ header {
 .app-body {
   padding: .5rem;
   padding-top: 40px; 
+  padding-bottom: 40px;
 }
 
 /********************************************

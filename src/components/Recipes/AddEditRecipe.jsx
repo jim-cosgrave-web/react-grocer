@@ -6,6 +6,10 @@ import MyTypeahead from '../Shared/Typeahead/Typeahead';
 import { useParams, useHistory } from "react-router-dom";
 import { findWithAttr } from '../../utils/jsUtilities';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+
 const AddEditRecipe = (props) => {
     const { recipeId } = useParams();
     const [recipe, setRecipe] = useState({ name: '', link: '', categories: [], ingredients: [] });
@@ -82,11 +86,11 @@ const AddEditRecipe = (props) => {
             <div className="edit-recipe-container">
                 <div>
                     <h5>Name</h5>
-                    <input ref={nameInputRef} defaultValue={recipe.name}></input>
+                    <input type="text" ref={nameInputRef} defaultValue={recipe.name}></input>
                 </div>
                 <div>
                     <h5>Link</h5>
-                    <input ref={linkInputRef} defaultValue={recipe.link}></input>
+                    <input type="text" ref={linkInputRef} defaultValue={recipe.link}></input>
                 </div>
                 <div>
                     <h5>Ingredients</h5>
@@ -94,12 +98,12 @@ const AddEditRecipe = (props) => {
                         <div className="edit-list-container" style={{ marginTop: "10px" }}>
                             {recipe.ingredients && recipe.ingredients.map((i, index) => {
                                 return (
-                                    <div key={i.name} className="edit-list">
+                                    <div key={i.name} className="edit-list edit-list-item">
                                         <div>
                                             {i.name}
                                         </div>
                                         <div>
-                                            <button onClick={() => removeIngredient(i)}>Remove</button>
+                                            <FontAwesomeIcon className="clickable" onClick={() => removeIngredient(i)} icon={faTrashAlt} />
                                         </div>
                                     </div>
                                 );
@@ -117,12 +121,12 @@ const AddEditRecipe = (props) => {
                         <div className="edit-list-container" style={{ marginTop: "10px" }}>
                             {recipe.categories && recipe.categories.map((i, index) => {
                                 return (
-                                    <div key={i} className="edit-list">
+                                    <div key={i} className="edit-list edit-list-item">
                                         <div>
                                             {i}
                                         </div>
                                         <div>
-                                            <button onClick={() => removeCategory(i)}>Remove</button>
+                                            <FontAwesomeIcon className="clickable" onClick={() => removeCategory(i)} icon={faTrashAlt} />
                                         </div>
                                     </div>
                                 );
@@ -133,8 +137,8 @@ const AddEditRecipe = (props) => {
                         <MyTypeahead type="recipe-category" placeholder="Add a category" onAdd={handleAddCategory}></MyTypeahead>
                     </div>
                 </div>
-                <div>
-                    <button className="save" onClick={save}>Save</button>
+                <div style={{ marginTop: "10px" }}>
+                    <div onClick={save} className="g-btn g-btn-large btn-warning noselect">Save</div>
                 </div>
             </div>
         </div>

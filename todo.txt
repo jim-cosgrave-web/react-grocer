@@ -1,5 +1,0 @@
-- Formatting of input on main list (input wraps to new line)
-- Formatting of categorize dropdown on store list
-- Formatting of buttons on iPhone (rounded)
-- Active link on auto redirect
-- Input width not 100% in the add/edit grocery screen
