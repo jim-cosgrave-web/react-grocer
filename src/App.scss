@@ -472,12 +472,19 @@ List
 
     .list-item-name{
       flex-grow: 1;
+      width: 48%;
+      max-width: 48%;
       font-weight: bold;
     }
 
     .list-item-note{
+      width: 48%;
       font-style: italic;
       color: lighten(black, 30%);
+
+      input {
+        max-width: 100%;
+      }
     }
     
   }
