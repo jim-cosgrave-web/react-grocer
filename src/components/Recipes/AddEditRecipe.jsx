@@ -3,12 +3,11 @@ import axios from 'axios';
 import env from '../Shared/Environment';
 import MyTypeahead from '../Shared/Typeahead/Typeahead';
 
-import { useParams, useHistory } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { findWithAttr } from '../../utils/jsUtilities';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faMinusSquare, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 const AddEditRecipe = (props) => {
     const { recipeId } = useParams();
@@ -82,7 +81,12 @@ const AddEditRecipe = (props) => {
 
     let content = (
         <div style={{ maxWidth: "600px" }}>
-            <h2>Edit Recipe</h2>
+                            <div className="flex">
+                    <h2>Edit Recipe</h2>
+                    <div>
+                        <Link to={"/recipes/" + recipeId}><FontAwesomeIcon icon={faMinusSquare} /></Link>
+                    </div>
+                </div>
             <div className="edit-recipe-container">
                 <div>
                     <h5>Name</h5>

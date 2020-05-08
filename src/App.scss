@@ -564,7 +564,6 @@ Recipes
     font-size: 20px;
     font-weight: bold;
     margin-top: 10px;
-    border-bottom: 1px solid #000;
   }
 }
 
@@ -593,6 +592,11 @@ Recipes
   .save {
     width: 100%;
     margin-top: 10px;
+  }
+
+  .edit-list-container {
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000;
   }
 
   .edit-list-container >div:nth-child(odd) {

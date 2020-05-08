@@ -1,0 +1,5 @@
+- Typeahead css too many requests
+- Make sure everything works scoped to the current user
+- Allow new registrations
+- Make a profile screen
+- Add Jewel configuration
