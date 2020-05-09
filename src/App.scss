@@ -57,7 +57,9 @@ input[type="text"] {
   }
 }
 
-
+.wrapper {
+    padding-bottom: 100px;
+}
 
 .container{
   
@@ -552,18 +554,31 @@ END List
 /******************************************************************
 Recipes
 ******************************************************************/
+.recipes-container {
+  input {
+    width: 100%;
+  }
+}
 
 .recipe-list {
+  margin-top: 10px;
+  border-top: 30px solid $primary;
+
   .recipe-list-item {
     padding: 8px;
+    color: black;
     cursor: pointer;
+    font-weight: bold;
+  }
+
+  .recipe-item:nth-child(odd) {
+    background-color: #ccc;
   }
 }
 
 .recipe-list a  .recipe-list-item {
-  border-color: $secondary;
-  border-bottom: 2px solid $secondary;
-  color: black;
+  border-bottom: 1px solid $primary;
+  color: $primary;
 }
 
 .recipe-container {

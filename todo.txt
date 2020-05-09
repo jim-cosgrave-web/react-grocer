@@ -1,4 +1,4 @@
-- Typeahead css too many requests
+- Padding at the bottom of the app on phones
 - Make sure everything works scoped to the current user
 - Allow new registrations
 - Make a profile screen

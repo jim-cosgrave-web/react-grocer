@@ -35,7 +35,7 @@ function App() {
 
   return (
     <Router>
-      <div className="h-100">
+      <div className="wrapper">
         {configured && <Menu></Menu>}
         <div className="h-100 app-body">
           <Switch>
