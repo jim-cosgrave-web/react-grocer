@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+
 import './App.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.min.css';
 import 'react-bootstrap-typeahead/css/Typeahead.min.css';
+
 import Login from './components/Authentication/Login';
 import Menu from './components/Menu/Menu';
 import GroceryList from './components/GroceryList/GroceryList';

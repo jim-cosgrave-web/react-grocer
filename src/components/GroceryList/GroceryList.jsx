@@ -172,7 +172,7 @@ const GroceryList = (props) => {
 
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
-            <div className="store-title">Grocery List</div>
+            <h2>Grocery List</h2>
             <div style={{ marginTop: "16px" }}>
                 <div>
                     <GrocerySearch

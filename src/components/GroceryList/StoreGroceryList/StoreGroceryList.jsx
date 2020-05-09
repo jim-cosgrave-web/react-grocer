@@ -239,7 +239,7 @@ const StoreGroceryList = (props) => {
 
     let content = (
         <div style={{ maxWidth: "600px" }}>
-            <div className="store-title">Shopping at {selectedStore && selectedStore.name}</div>
+            <h2>Shopping at {selectedStore && selectedStore.name}</h2>
             {storeDropDown && storeDropDown.length > 1 && <div>
                 <select style={{ width: "100%" }}>
                     {storeDropDown && storeDropDown.map((s, index) => {
