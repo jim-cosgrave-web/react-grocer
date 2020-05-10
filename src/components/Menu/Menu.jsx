@@ -75,7 +75,9 @@ function Menu() {
                     .then(res => {
                         const l = res.data[0];
 
-                        setShopLink('/shop/' + l._id);
+                        if (l) {
+                            setShopLink('/shop/' + l._id);
+                        }
                     });
 
                 clearInterval(interval);

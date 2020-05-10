@@ -40,12 +40,14 @@ const GroceryList = (props) => {
             .then(res => {
                 const l = res.data[0];
 
-                if (l.groceries) {
-                    l.groceries.sort(compareNames);
-                }
+                if (l) {
+                    if (l.groceries) {
+                        l.groceries.sort(compareNames);
+                    }
 
-                setList(l);
-                setShopUrl('/shop/' + l._id);
+                    setList(l);
+                    setShopUrl('/shop/' + l._id);
+                }
             });
     }
 
@@ -176,7 +178,7 @@ const GroceryList = (props) => {
             <div style={{ marginTop: "16px" }}>
                 <div>
                     <GrocerySearch
-                      onAdd={handleAddGrocery}
+                        onAdd={handleAddGrocery}
                     ></GrocerySearch>
                 </div>
                 {/* <div className="grocery-search">
@@ -203,12 +205,12 @@ const GroceryList = (props) => {
             </div>
             <div className="list">
                 {list && list.groceries && list.groceries.map((g, index) => {
-                    return !g.hidden && 
-                        <Grocery onClick={handleGroceryClick} 
-                                 grocery={g} 
-                                 key={g.name + '_' + g.checked} 
-                                 update={updateGrocery} 
-                                 onInteraction={handleGroceryInteraction}>
+                    return !g.hidden &&
+                        <Grocery onClick={handleGroceryClick}
+                            grocery={g}
+                            key={g.name + '_' + g.checked}
+                            update={updateGrocery}
+                            onInteraction={handleGroceryInteraction}>
                         </Grocery>
                 })}
             </div>
