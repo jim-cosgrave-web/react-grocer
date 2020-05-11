@@ -7,13 +7,18 @@ import 'react-bootstrap-typeahead/css/Typeahead.min.css';
 
 import Login from './components/Authentication/Login';
 import Menu from './components/Menu/Menu';
+
 import GroceryList from './components/GroceryList/GroceryList';
 import StoreGroceryList from './components/GroceryList/StoreGroceryList/StoreGroceryList';
+
 import Admin from './components/Admin/Admin';
 import StoreDetails from './components/Store/StoreDetails/StoreDetails';
+import AddEditStore from './components/Admin/AddEditStore';
+
 import Recipes from './components/Recipes/Recipes';
 import Recipe from './components/Recipes/Recipe';
 import AddEditRecipe from './components/Recipes/AddEditRecipe';
+
 import axios from 'axios';
 
 import {
@@ -44,6 +49,9 @@ function App() {
           <Switch>
             <Route path="/admin/store/:id">
               <StoreDetails></StoreDetails>
+            </Route>
+            <Route path="/admin/edit/:storeId">
+              <AddEditStore></AddEditStore>
             </Route>
             <Route path="/admin">
               <Admin></Admin>

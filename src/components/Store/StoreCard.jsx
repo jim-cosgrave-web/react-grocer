@@ -1,5 +1,4 @@
 import React from 'react';
-import './Store.scss';
 
 import {
     Link
@@ -12,7 +11,7 @@ function StoreCard(props) {
         <div className="store store-card">
             <div className="store-name">{store.name} ({store.city} {store.stateProvince})</div>
             <div className="store-details">
-              <Link to={`/admin/store/${store.storeId}`}>Groceries</Link>
+              <Link to={`/admin/store/${store._id}`}>Groceries</Link>
               {/* <Link to="/admin/store/:id">Admin</Link> */}
             </div>
         </div>

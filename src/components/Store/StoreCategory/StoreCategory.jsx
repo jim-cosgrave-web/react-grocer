@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import env from './../../Shared/Environment';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faArrowLeft, faArrowUp, faArrowDown, faTrashAlt, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+
+import MyTypeahead from '../../Shared/Typeahead/Typeahead';
+
 function StoreCategory(props) {
     // { category, onMove, storeId, categoryList, onGroceryCategoryChange }
     const [category, setCategory] = useState(props.category);
@@ -65,11 +70,9 @@ function StoreCategory(props) {
         }
     }
 
-    const addGrocery = () => {
-        const inputText = inputRef.current.value
+    const addGrocery = (grocery) => {
+        const inputText = grocery;
         const body = { category: category.name, groceryName: inputText };
-        inputRef.current.value = '';
-        inputRef.current.focus();
 
         axios.post(env.apiPrefix + 'stores/' + props.storeId + '/grocery', body).then((res) => {
             const newGrocery = res.data;
@@ -124,48 +127,63 @@ function StoreCategory(props) {
 
     return (
         <div className="card grocery-category-card">
-            <div className="card-header flex-grid">
+            <div className="category-header flex-grid">
                 <div>
                     {!editing &&
-                        <div>
-                            <span>{category.name}</span>
-                            <button onClick={() => toggleEdit(true)}>Edit</button>
+                        <div className="flex category-name">
+                            <div>{category.name}</div>
+                            <div>
+                                <FontAwesomeIcon className="clickable" onClick={() => toggleEdit(true)} icon={faEdit} />
+                            </div>
                         </div>
                     }
                     {editing &&
-                        <div>
-                            <input ref={iCategoryNameRef} defaultValue={category.name} onKeyUp={handleCategoryNameKeyUp}></input>
-                            <button onClick={() => toggleEdit(false)}>Save</button>
+                        <div className="flex category-name">
+                            <div>
+                                <input ref={iCategoryNameRef} defaultValue={category.name} onKeyUp={handleCategoryNameKeyUp}></input>
+                            </div>
+                            <div>
+                                <FontAwesomeIcon className="clickable" onClick={() => toggleEdit(false)} icon={faSave} />
+                            </div>
                         </div>
                     }
                 </div>
-                <div>
-                    <button onClick={moveLeft}>&lt;&lt;</button>
-                    <button onClick={moveRight}>&gt;&gt;</button>
+                <div className="store-category-arrows">
+                    <div>
+                        <FontAwesomeIcon className="clickable" onClick={moveLeft} icon={faArrowLeft} />
+                    </div>
+                    <div>
+                        <FontAwesomeIcon className="clickable" onClick={moveRight} icon={faArrowRight} />
+                    </div>
                 </div>
             </div>
             <div className="card-body">
-                <div className="add-grocery-container">
-                    <div>
-                        <input ref={inputRef} placeholder="Add a grocery..." onKeyPress={handleKeyPress} />
-                    </div>
-                    <div>
-                        <button onClick={addGrocery}>Add</button>
-                    </div>
+                <div>
+                    <MyTypeahead type="groceries" placeholder="Add a grocery" onAdd={addGrocery}></MyTypeahead>
                 </div>
-                {groceries && groceries.map((grocery, index) => {
-                    return (
-                        <div key={index}>
-                            <button onClick={() => moveGroceryUp(grocery)}>^</button>
-                            <button onClick={() => moveGroceryDown(grocery)}>v</button>
-                            <button onClick={() => deleteGrocery(grocery)}>X</button>
-                            <select onChange={(event) => handleCategoryChange(event, grocery)} value={category.name}>
-                                {props.categoryList.map((c, i) => { return <option key={c.name} defaultValue={c.name}>{c.name}</option>; })}
-                            </select>
-                            {grocery.groceryName}
-                        </div>
-                    );
-                })}
+                <div className="store-category-groceries">
+                    {groceries && groceries.map((grocery, index) => {
+                        return (
+                            <div className="store-category-grocery" key={index}>
+                                <div className="flex">
+                                    <div>
+                                        {grocery.groceryName}
+                                    </div>
+                                    <div>
+                                        <FontAwesomeIcon className="clickable" onClick={() => moveGroceryUp(grocery)} icon={faArrowUp} />
+                                        <FontAwesomeIcon className="clickable" onClick={() => moveGroceryDown(grocery)} icon={faArrowDown} />
+                                        <FontAwesomeIcon className="clickable" onClick={() => deleteGrocery(grocery)} icon={faTrashAlt} />
+                                    </div>
+                                </div>
+
+                                <select onChange={(event) => handleCategoryChange(event, grocery)} value={category.name}>
+                                    {props.categoryList.map((c, i) => { return <option key={c.name} defaultValue={c.name}>{c.name}</option>; })}
+                                </select>
+
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     )

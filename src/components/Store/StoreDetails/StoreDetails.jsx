@@ -33,7 +33,7 @@ function StoreDetails(props) {
                 //
                 // Sort category groceries
                 //
-                for(let i = 0; i < store.categories.length; i++) {
+                for (let i = 0; i < store.categories.length; i++) {
                     store.categories[i].groceries.sort((a, b) => { return a.order - b.order });
                 }
 
@@ -45,11 +45,9 @@ function StoreDetails(props) {
         <div>
             {store ?
                 <div>
-                    <div className="store">
-                        <div className="store-name">{store.name} ({store.city} {store.stateProvince})</div>
-                    </div>
+                    <h2>{store.name} ({store.city} {store.stateProvince})</h2>
                     <div>
-                        <StoreCategoryList storeId={store.storeId} categories={store.categories} categoryList={store.categoryList}></StoreCategoryList>
+                        <StoreCategoryList storeId={store._id} categories={store.categories} categoryList={store.categoryList}></StoreCategoryList>
                     </div>
                 </div>
                 : <div>Loading</div>

@@ -9,7 +9,13 @@ function StoreCategoryList(props) {
     const inputRef = React.createRef();
 
     const handleMove = (category, direction) => {
+        debugger;
         let workingSet = categories.slice();
+
+        if (!workingSet || workingSet.length == 1) {
+            return;
+        }
+
         const newOrder = category.order + direction;
 
         //
@@ -95,19 +101,21 @@ function StoreCategoryList(props) {
         <div>
             <div className="flex-grid">
                 {categories && categories.map((category, index) => {
-                    return <StoreCategory 
-                        key={category.name} 
-                        category={category} 
-                        onMove={handleMove} 
+                    return <StoreCategory
+                        key={category.name}
+                        category={category}
+                        onMove={handleMove}
                         storeId={props.storeId}
                         categoryList={props.categoryList}
                         onGroceryCategoryChange={handleGroceryCategoryChange}>
                     </StoreCategory>
                 })}
-
-            </div>
-            <div>
-                <input ref={inputRef} placeholder="Add a category..." onKeyPress={handleKeyPress} />
+                <div className="add-category-container" style={{ marginTop: "10px" }}>
+                    <div className="">
+                        <input ref={inputRef} placeholder="Add a category..." onKeyPress={handleKeyPress} />
+                    </div>
+                    <div className="g-btn g-btn-large btn-warning noselect" onClick={addCategory}>Save</div>
+                </div>
             </div>
         </div>
     );

@@ -80,6 +80,26 @@ input[type="text"] {
   height: 100%;
 }
 
+.mt-10 {
+  margin-top: 5px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
 .App-header {
   background-color: $primary;
   min-height: 100vh;
@@ -151,6 +171,62 @@ a {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
+}
+
+.add-category-container {
+  width: 100%;
+
+  input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.store-category-arrows {
+  display: flex;
+
+  div {
+    margin-left: 10px;
+  }
+}
+
+.category-name {
+  div {
+    margin-right: 10px;
+  }
+}
+
+.store-category-groceries {
+  margin-top: 10px;
+}
+
+.category-header {
+  background-color: $primary;
+  color: #fff;
+  font-size: 22px;
+  padding: 1em;
+}
+
+.store-category-groceries .store-category-grocery:nth-child(odd) {
+  background-color: $tertiary;
+}
+
+.store-category-grocery {
+  padding: 20px 10px;
+  border: 1px solid #000;
+
+  svg {
+    margin-left: 10px;
+  }
+
+  &:hover {
+    background-color: darken($tertiary, 10%) !important;
+  }
+
+  select {
+    width: 100%;
+    margin-top: 10px;
+  }
 }
 
 .grocery-search {
@@ -398,7 +474,6 @@ Store
 }
 
 .store-card {
-  max-width: 300px;
 }
 
 .store-name {
@@ -431,7 +506,7 @@ Store
 .card-header {
   padding: .5rem;
   border-bottom: 1px solid lighten($primary, 50%);
-  background-color: $secondary;
+  background-color: red;
   color: $primary;
   font-weight: bold;
 }

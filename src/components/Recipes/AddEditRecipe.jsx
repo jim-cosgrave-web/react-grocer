@@ -81,12 +81,12 @@ const AddEditRecipe = (props) => {
 
     let content = (
         <div style={{ maxWidth: "600px" }}>
-                            <div className="flex">
-                    <h2>Edit Recipe</h2>
-                    <div>
-                        <Link to={"/recipes/" + recipeId}><FontAwesomeIcon icon={faMinusSquare} /></Link>
-                    </div>
+            <div className="flex">
+                <h2>Edit Recipe</h2>
+                <div>
+                    <Link to={"/recipes/" + recipeId}><FontAwesomeIcon icon={faMinusSquare} /></Link>
                 </div>
+            </div>
             <div className="edit-recipe-container">
                 <div>
                     <h5>Name</h5>
