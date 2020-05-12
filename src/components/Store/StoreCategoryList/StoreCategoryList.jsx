@@ -9,7 +9,6 @@ function StoreCategoryList(props) {
     const inputRef = React.createRef();
 
     const handleMove = (category, direction) => {
-        debugger;
         let workingSet = categories.slice();
 
         if (!workingSet || workingSet.length == 1) {
@@ -114,7 +113,7 @@ function StoreCategoryList(props) {
                     <div className="">
                         <input ref={inputRef} placeholder="Add a category..." onKeyPress={handleKeyPress} />
                     </div>
-                    <div className="g-btn g-btn-large btn-warning noselect" onClick={addCategory}>Save</div>
+                    <div className="g-btn g-btn-large btn-warning noselect" onClick={addCategory}>Save New Category</div>
                 </div>
             </div>
         </div>

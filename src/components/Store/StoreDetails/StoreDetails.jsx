@@ -34,7 +34,11 @@ function StoreDetails(props) {
                 // Sort category groceries
                 //
                 for (let i = 0; i < store.categories.length; i++) {
-                    store.categories[i].groceries.sort((a, b) => { return a.order - b.order });
+                    const category = store.categories[i];
+
+                    if(category && category.groceries && category.groceries.length > 0) {
+                        category.groceries.sort((a, b) => { return a.order - b.order });
+                    }
                 }
 
                 setStore(store);
