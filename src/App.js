@@ -19,6 +19,8 @@ import Recipes from './components/Recipes/Recipes';
 import Recipe from './components/Recipes/Recipe';
 import AddEditRecipe from './components/Recipes/AddEditRecipe';
 
+import Profile from './components/User/Profile';
+
 import axios from 'axios';
 
 import {
@@ -70,6 +72,9 @@ function App() {
             </Route>
             <Route path="/recipes">
               <Recipes></Recipes>
+            </Route>
+            <Route path="/profile">
+              <Profile></Profile>
             </Route>
             <Route path="/">
               <Login></Login>

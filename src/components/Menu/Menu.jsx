@@ -102,6 +102,9 @@ function Menu() {
                     <li onClick={() => setActive('admin')} className={link === 'admin' ? 'active' : ''}>
                         <Link to="/admin">Admin</Link>
                     </li>
+                    <li onClick={() => setActive('profile')} className={link === 'profile' ? 'active' : ''}>
+                        <Link to="/profile">Profile</Link>
+                    </li>
                 </ul>}
         </header>
     );
