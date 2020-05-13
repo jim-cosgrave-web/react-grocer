@@ -4,6 +4,8 @@ import env from '../Shared/Environment';
 
 import { Link, useHistory } from "react-router-dom";
 
+import MyTypeahead from './../Shared/Typeahead/Typeahead';
+
 const Profile = (props) => {
     const [user, setUser] = useState(null);
     const [stores, setStores] = useState(null);
@@ -34,49 +36,60 @@ const Profile = (props) => {
         });
     }, []);
 
+    const handleAddStore = (store) => {
+        //console.log(store);
+        let clone = stores.slice();
+        let existing = clone.find(s => s._id.toString() === store.id.toString());
+
+        if (!existing) {
+            let newOption = { _id: store.id.toString(), name: store.label };
+            clone.push(newOption);
+            setStores(clone);
+        }
+    }
+
+    const getStoreLabel = (store) => {
+        return store.name + (store.city ? ' (' + store.city + ' ' + store.state + ')' : '');
+    }
+
     return (
         <div className="profile-wrapper">
             <h2>Profile</h2>
             {user &&
                 <div>
-                    <div>
-                        <div className="edit-section-title">
-                            Name
-                        </div>
+                    <div className="mt-20">
+                        <h5>Name</h5>
                         <div>
                             {user.name}
                         </div>
                     </div>
-                    <div>
-                        <div className="edit-section-title">
-                            Email
-                        </div>
+                    <div className="mt-20">
+                        <h5>Email</h5>
                         <div>
                             {user.email}
                         </div>
                     </div>
-                    <div>
-                        <div className="edit-section-title">
-                            Username
-                        </div>
+                    <div className="mt-20">
+                        <h5>Username</h5>
                         <div>
                             {user.username}
                         </div>
                     </div>
-                    <div>
-                        <div className="edit-section-title">
-                            My Stores
-                        </div>
-                        <div>
+                    <div className="mt-20">
+                        <h5>My Stores</h5>
+                        <div className="ul-container" style={{ marginTop: "10px" }}>
                             {stores && stores.map((store, index) => {
                                 return (
-                                    <div key={store._id.toString()}>
+                                    <div key={store._id.toString()} className="ul-item clickable">
                                         <div>
-                                            {store.name}
+                                            {getStoreLabel(store)}
                                         </div>
                                     </div>
                                 );
                             })}
+                        </div>
+                        <div style={{ marginTop: "10px" }}>
+                            <MyTypeahead type="stores" placeholder="Add a category" onAdd={handleAddStore}></MyTypeahead>
                         </div>
                     </div>
                 </div>}

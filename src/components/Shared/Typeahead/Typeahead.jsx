@@ -39,18 +39,42 @@ const MyTypeahead = (props) => {
                 }).catch(res => {
                     console.error(res);
                 });
+        } else if (props.type === 'stores') {
+            axios.get(env.apiPrefix + 'stores')
+                .then(res => {
+                    if (res.data) {
+                        let options = [];
+                        
+                        for (let i = 0; i < res.data.length; i++) {
+                            let store = res.data[i];
+                            options.push({ id: store._id.toString(), label: store.name + ' (' + store.city + ' ' + store.state + ')' });
+                        }
+
+                        //setOptions([{ label: 'Jewel Osco', id: '1' }]);
+                        setOptions(options);
+                    }
+                }).catch(res => {
+                    console.error(res);
+                });
+
         }
     }
 
-    const handleAddClick = () => {
-        if (ref && ref.current && ref.current.getInput()) {
-            const value = ref.current.getInput().value;
+    const handleAddClick = (selected) => {
+        let value = null;
 
-            if (value.trim() != '') {
-                props.onAdd(value);
-                ref.current.clear();
-            }
+        if (selected && selected.length > 0) {
+            value = selected[0];
+        } else if (ref && ref.current && ref.current.getInput()) {
+            value = ref.current.getInput().value;
         }
+
+        if(!value) {
+            console.error('Selected item not found!');
+        }
+
+        props.onAdd(value);
+        ref.current.clear();
     }
 
     const handleKeyDown = (event) => {

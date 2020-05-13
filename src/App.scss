@@ -628,6 +628,21 @@ List
   }
 }
 
+.ul-container {
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
+}
+
+.ul-container >div:nth-child(odd) {
+  background-color: #eee;
+}
+
+.ul-item {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 /******************************************************************
 END List
