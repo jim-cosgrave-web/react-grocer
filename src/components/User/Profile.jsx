@@ -3,6 +3,8 @@ import axios from 'axios';
 import env from '../Shared/Environment';
 
 import { Link, useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 import MyTypeahead from './../Shared/Typeahead/Typeahead';
 
@@ -45,11 +47,26 @@ const Profile = (props) => {
             let newOption = { _id: store.id.toString(), name: store.label };
             clone.push(newOption);
             setStores(clone);
+
+            let body = { store: { store_id: newOption._id, name: newOption.name } };
+            axios.post(env.apiPrefix + 'users/subscribeToStore', body);
         }
     }
 
     const getStoreLabel = (store) => {
         return store.name + (store.city ? ' (' + store.city + ' ' + store.state + ')' : '');
+    }
+
+    const handleUnsubscribe = (store) => {
+        const body = { store: store };
+
+        let clone = stores.slice();
+        let index = clone.map(function(s) { return s.store_id ;}).indexOf(store._id.toString());
+        clone.splice(index, 1);
+
+        setStores(clone);
+
+        axios.post(env.apiPrefix + 'users/unsubscribeFromStore', body);
     }
 
     return (
@@ -84,12 +101,15 @@ const Profile = (props) => {
                                         <div>
                                             {getStoreLabel(store)}
                                         </div>
+                                        <div>
+                                            <FontAwesomeIcon title="unsubscribe" icon={faMinusCircle} onClick={() => handleUnsubscribe(store)} />
+                                        </div>
                                     </div>
                                 );
                             })}
                         </div>
                         <div style={{ marginTop: "10px" }}>
-                            <MyTypeahead type="stores" placeholder="Add a category" onAdd={handleAddStore}></MyTypeahead>
+                            <MyTypeahead type="stores" placeholder="Subscribe to a store" onAdd={handleAddStore}></MyTypeahead>
                         </div>
                     </div>
                 </div>}
