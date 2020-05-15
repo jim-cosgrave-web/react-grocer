@@ -32,7 +32,7 @@ const StoreGroceryList = (props) => {
 
             const ddl = [];
             storeData.forEach(s => {
-                ddl.push({ name: s.name + ' (' + s.city + ')', value: s._id, storeId: s.storeId });
+                ddl.push({ name: s.name + ' (' + s.city + ')', value: s._id});
             });
 
             const tempSelectedStore = ddl[0];
@@ -44,24 +44,31 @@ const StoreGroceryList = (props) => {
         });
     }
 
+    const handleSelectedStoreChange = (event) => {
+        const index = event.nativeEvent.target.selectedIndex;
+        const text = event.nativeEvent.target[index].text;
+        const newSelectedStore = { name: text, value: event.target.value };
+
+        setSelectedStore(newSelectedStore);
+        getStoreGroceryList(newSelectedStore);
+    }
+
+    //
+    // Interval to sync grocery list with server
+    //
     useInterval(() => {
         if (!refreshBlock) {
-            console.log('Refreshing data');
             setLastRefreshTime(new Date());
-            getStoreGroceryList();
+            getStoreGroceryList(selectedStore);
         } else {
-            console.log('Refresh blocked due to interaction with grocery');
             setRefreshBlock(false);
         }
     }, 30000);
 
     const getStoreGroceryList = (store) => {
-        if (selectedStore) {
-            store = selectedStore;
-        }
-
         if (store) {
             axios.get(env.apiPrefix + 'list/' + listId + '/' + store.value).then(res => {
+                //console.log(res.data);
                 setList(res.data);
             });
         }
@@ -241,10 +248,10 @@ const StoreGroceryList = (props) => {
         <div style={{ maxWidth: "600px" }}>
             <h2>Shopping at {selectedStore && selectedStore.name}</h2>
             {storeDropDown && storeDropDown.length > 1 && <div>
-                <select style={{ width: "100%" }}>
+                <select style={{ width: "100%" }} onChange={handleSelectedStoreChange}>
                     {storeDropDown && storeDropDown.map((s, index) => {
                         return (
-                            <option key={s.value} defaultValue={s.value}>
+                            <option key={s.value} defaultValue={s.value} value={s.value}>
                                 {s.name}
                             </option>
                         );
