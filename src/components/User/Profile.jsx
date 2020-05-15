@@ -4,7 +4,7 @@ import env from '../Shared/Environment';
 
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faMinusCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 import MyTypeahead from './../Shared/Typeahead/Typeahead';
 
@@ -69,9 +69,20 @@ const Profile = (props) => {
         axios.post(env.apiPrefix + 'users/unsubscribeFromStore', body);
     }
 
+    const handleLogout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('token');
+    }
+
     return (
         <div className="profile-wrapper">
-            <h2>Profile</h2>
+            <div className="flex">
+                <h2>Profile</h2>
+                <div>
+                    <a href="#" onClick={(e) => handleLogout(e)}>Logout</a>
+                </div>
+            </div>
             {user &&
                 <div>
                     <div className="mt-20">
