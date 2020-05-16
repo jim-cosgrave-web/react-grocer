@@ -64,16 +64,10 @@ function StoreCategory(props) {
         axios.put(env.apiPrefix + 'stores/' + props.storeId + '/grocery', updateModel);
     }
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            addGrocery();
-        }
-    }
-
     const addGrocery = (grocery) => {
         const inputText = grocery;
         const body = { category: category.name, groceryName: inputText };
-
+        
         axios.post(env.apiPrefix + 'stores/' + props.storeId + '/grocery', body).then((res) => {
             const newGrocery = res.data;
             let workingSet = groceries.slice();

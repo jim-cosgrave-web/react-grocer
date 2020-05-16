@@ -49,6 +49,7 @@ const StoreGroceryList = (props) => {
         const text = event.nativeEvent.target[index].text;
         const newSelectedStore = { name: text, value: event.target.value };
 
+        console.log('handleSelectedStoreChange');
         setSelectedStore(newSelectedStore);
         getStoreGroceryList(newSelectedStore);
     }
@@ -79,12 +80,6 @@ const StoreGroceryList = (props) => {
 
         const body = { list_id: listId, grocery: grocery };
         axios.put(env.apiPrefix + 'list/grocery', body);
-    }
-
-    const handleInputKeyUp = (event) => {
-        if (event.key == 'Enter') {
-            handleAddGrocery();
-        }
     }
 
     const handleAddGrocery = (value) => {
@@ -149,7 +144,7 @@ const StoreGroceryList = (props) => {
 
         const body = { category: categoryName, groceryName: groceryToMove.name };
 
-        axios.post(env.apiPrefix + 'stores/' + selectedStore.storeId + '/grocery', body).then((res) => {
+        axios.post(env.apiPrefix + 'stores/' + selectedStore.value + '/grocery', body).then((res) => {
             //console.log(res);
         });
     }
