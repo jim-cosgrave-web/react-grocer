@@ -610,6 +610,10 @@ List
         font-weight: normal !important;
     }
   }
+
+  .list-item.check-error {
+    background-color: red;
+  }
 }
 
 .list-category {

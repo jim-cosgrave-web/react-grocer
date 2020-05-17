@@ -32,7 +32,7 @@ const StoreGroceryList = (props) => {
 
             const ddl = [];
             storeData.forEach(s => {
-                ddl.push({ name: s.name + ' (' + s.city + ')', value: s._id});
+                ddl.push({ name: s.name + ' (' + s.city + ')', value: s._id });
             });
 
             const tempSelectedStore = ddl[0];
@@ -149,23 +149,54 @@ const StoreGroceryList = (props) => {
         });
     }
 
+    //
+    // Handle the grocery click event to handle crossing groceries off the list
+    //
     const handleGroceryClick = (grocery) => {
+        grocery.checkError = false;
         const body = { list_id: listId, grocery: grocery };
-        //console.log(body);
-        axios.put(env.apiPrefix + 'list/grocery', body);
+        let success = true;
 
-        let clone = { ...list };
+        axios.put(env.apiPrefix + 'list/grocery', body)
+            .catch(err => {
+                const eventName = 'StoreGroceryList.handleGroceryClick_' + grocery.name;
+                let debugStorage = JSON.parse(localStorage.getItem('DEBUG'));
 
-        for (let i = 0; i < clone.list.length; i++) {
-            let category = clone.list[i];
-            const index = category.groceries.map(e => e.name).indexOf(grocery.name);
+                if(!debugStorage) {
+                    debugStorage = { errors: [] };
+                }
 
-            if (index != -1) {
-                category.groceries[index] = grocery;
-                setList(clone);
-                break;
-            }
-        }
+                debugStorage.errors.push({ event: eventName, error: err, timestamp: new Date() });
+                console.log(debugStorage);
+
+                localStorage.setItem('DEBUG', JSON.stringify(debugStorage));
+                success = false;
+            })
+            .finally(() => {
+                if (!success) {
+                    alert('Unable to send request to the server.');
+                }
+
+                let clone = { ...list };
+
+                for (let i = 0; i < clone.list.length; i++) {
+                    let category = clone.list[i];
+                    const index = category.groceries.map(e => e.name).indexOf(grocery.name);
+
+                    if (index != -1) {
+                        grocery.checkError = false;
+
+                        if (!success) {
+                            grocery.checked = !grocery.checked;
+                            grocery.checkError = true;
+                        }
+
+                        category.groceries[index] = grocery;
+                        setList(clone);
+                        break;
+                    }
+                }
+            });
     }
 
     const handleHideClick = () => {

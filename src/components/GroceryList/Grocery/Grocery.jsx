@@ -48,7 +48,7 @@ const Grocery = (props) => {
     }
 
     let content = (
-        <div className={"list-item" + (grocery.checked ? ' checked' : '')} onClick={handleGroceryClick}>
+        <div className={"list-item" + (grocery.checked ? ' checked' : '') + (grocery.checkError ? ' check-error' : '')} onClick={handleGroceryClick}>
             <div className="list-item-name">{grocery.name}</div>
             <div className="list-item-note">
                 <input className="prevent-click" ref={inputRef} onKeyUp={handleKeyPress} defaultValue={grocery.note}></input>

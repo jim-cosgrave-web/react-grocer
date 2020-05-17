@@ -21,6 +21,8 @@ import AddEditRecipe from './components/Recipes/AddEditRecipe';
 
 import Profile from './components/User/Profile';
 
+import DebugComponent from './components/Debug/Debug';
+
 import axios from 'axios';
 
 import {
@@ -81,6 +83,7 @@ function App() {
             </Route>
           </Switch>
         </div>
+        <DebugComponent></DebugComponent>
       </div>
     </Router>
   );
