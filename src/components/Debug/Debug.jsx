@@ -9,7 +9,7 @@ const DebugComponent = (props) => {
         let ls = JSON.parse(localStorage.getItem('DEBUG'));
 
         if (!ls) {
-            ls = {};
+            ls = { errors: [] };
         }
 
         console.log(ls.errors);
@@ -25,10 +25,21 @@ const DebugComponent = (props) => {
         getDebug();
     }, 5000);
 
+    const handleClearAllClick = () => {
+        let ls = JSON.parse(localStorage.getItem('DEBUG'));
+        ls.errors = [];
+        localStorage.setItem('DEBUG', JSON.stringify(ls));
+
+        setDebug(ls);
+    }
+
     let content = (
         <div>
             DEBUGGER!
-            <ul>
+            <div>
+                <button onClick={handleClearAllClick}>Clear All</button>
+            </div>
+            <ul style={{ "maxWidth": "100%", "wordBreak": "break-all" }}>
             {debug && debug.errors && debug.errors.map((d, index) => {
                 return (
                     <li key={index} >
