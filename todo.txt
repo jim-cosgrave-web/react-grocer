@@ -1,4 +1,3 @@
-- Change refresh to do a comparison and only update if there is a Change
-- Test what happens when internet connection is lost and an item is crossed off (how do we retain this)
+- Offline sync
 - Allow new registrations
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import GrocerySearch from './GrocerySearch/GrocerySearch';
+import MyTypeahead from './../Shared/Typeahead/Typeahead';
 import Grocery from './Grocery/Grocery';
+import Meals from './Meals';
 import { useInterval } from '../../hooks/useInterval';
 
 import axios from 'axios';
@@ -175,18 +177,11 @@ const GroceryList = (props) => {
     let content = (
         <div className="grocery-list" style={{ maxWidth: "600px" }}>
             <h2>Grocery List</h2>
+            <Meals></Meals>
             <div style={{ marginTop: "16px" }}>
                 <div>
-                    <GrocerySearch
-                        onAdd={handleAddGrocery}
-                    ></GrocerySearch>
+                    <MyTypeahead placeholder="Add a grocery" type="groceries" onAdd={handleAddGrocery}></MyTypeahead>
                 </div>
-                {/* <div className="grocery-search">
-                    <div>
-                        <input type="text" ref={groceryInputRef} onKeyUp={handleInputKeyUp}></input>
-                    </div>
-                    <div className="g-btn search-add-btn" onClick={handleAddGrocery}>Add</div>
-                </div> */}
             </div>
             <div className="list-btn-container">
                 <div className="g-btn g-btn-large btn-hide btn-warning noselect" onClick={handleHideClick}>{hideGroceries ? 'Show' : 'Hide'} Groceries</div>

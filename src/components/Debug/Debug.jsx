@@ -12,8 +12,6 @@ const DebugComponent = (props) => {
             ls = { errors: [] };
         }
 
-        console.log(ls.errors);
-
         setDebug(ls);
     }
 
